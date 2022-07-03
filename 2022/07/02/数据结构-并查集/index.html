@@ -6,15 +6,33 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | Hexo</title>
+  <title>数据结构-并查集 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="1.基本介绍定义：并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。 主要构成：并查集主要由一个整型数组pre[ ]和两个函数find( )、joi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构-并查集">
+<meta property="og:url" content="http://example.com/2022/07/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B6%E6%9F%A5%E9%9B%86/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.基本介绍定义：并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。 主要构成：并查集主要由一个整型数组pre[ ]和两个函数find( )、joi">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB9baa5dad0585351024bb9f424bd93d96?method=download&shareKey=73de205f5c3e2e806e36a5f0ddb1b40b">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBf41ef74c767dffdcdc3725997d26f86f?method=download&shareKey=b97b88f332969bd40399577c6aeca9f8">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB2ef4d874f32d86b38e2265efa5565e88?method=download&shareKey=6994bc8ac7242855ba7680414d8bb53e">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB2f7020d1adb09ebf4e82146f98868fc7?method=download&shareKey=27d374cba289e9e603538f90de41a352">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB4339591def535eb74aca8110a2ea051f?method=download&shareKey=c7e46c3fdd27af0cfb4c682e9295cf60">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBc253683345552855a584f83da27330a7?method=download&shareKey=8403329a91d29e197118820c5ac5d3c7">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBee5575d3b30084604ff5a0493f607f5f?method=download&shareKey=11ec15c8673af964cd84ce36f9fd471a">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBec2201e0d9b3fe2d63c60e8a492a920a?method=download&shareKey=10bd89460cc8e1be222d5983c914296f">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBee7661d743617d93857e8d11c4170833?method=download&shareKey=dc11e2b8fa1be39a9d2b846c8d1d5727">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBb705f798536c57d5cb5ea3e51cb153f7?method=download&shareKey=a473f0747ae6b4c6d8cd904b8dacbf4d">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB2fd1505ede39e8e5fed87f268f34d273?method=download&shareKey=82a8811b8a0c1f7815e56ac844045357">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB146ca87b4004baca3358e66b226fc2b9?method=download&shareKey=9871413815e4c895ee5cca55b91775fe">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB7189c01382af358e640127dd5303c3c5?method=download&shareKey=fddc1bc181fb5e006c34b0f37d3008ff">
+<meta property="article:published_time" content="2022-07-02T09:01:49.000Z">
+<meta property="article:modified_time" content="2022-07-03T02:53:53.853Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/WEB9baa5dad0585351024bb9f424bd93d96?method=download&shareKey=73de205f5c3e2e806e36a5f0ddb1b40b">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,103 +168,351 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-数据结构-并查集" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      数据结构-并查集
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/07/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B6%E6%9F%A5%E9%9B%86/" class="archive-article-date">
+
+        
+        <a href="/2022/07/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B6%E6%9F%A5%E9%9B%86/" class="archive-article-date">
   	<time datetime="2022-07-02T09:01:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-07-02</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/07/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B6%E6%9F%A5%E9%9B%86/">数据结构-并查集</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="1-基本介绍"><a href="#1-基本介绍" class="headerlink" title="1.基本介绍"></a>1.基本介绍</h1><p>定义：并查集是一种树型的数据结构，用于处理一些不相交集合的<strong>合并</strong>及<strong>查询</strong>问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。<br>并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。</p>
+<p>主要构成：<br>并查集主要由一个整型数组pre[ ]和两个函数find( )、join( )构成。<br>数组 pre[ ] 记录了每个点的前驱节点是谁，函数 find(x) 用于查找指定节点 x 属于哪个集合，函数 join(x,y) 用于合并两个节点 x 和 y 。  底层逻辑：查看两个节点是否属于同一集合，就判断它们的根节点是否相同；往集合中加入节点，就把节点作为集合中任意节点的子节点插入即可。</p>
+<p>作用：<br>并查集的主要作用是求连通分支数（如果一个图中所有点都存在可达关系（直接或间接相连），则此图的连通分支数为1；如果此图有两大子图各自全部可达，则此图的连通分支数为2……）</p>
+<h1 id="2-适用说明"><a href="#2-适用说明" class="headerlink" title="2.适用说明"></a>2.适用说明</h1><p>并查集用在一些有 N 个元素的集合应用问题中，我们通常是在开始时让每个元素构成一个单元素的集合，然后按一定顺序将属于同一组的元素所在的集合合并，其间要反复查找一个元素在哪个集合中。这个过程看似并不复杂，但数据量极大，若用其他的数据结构来描述的话，往往在空间上过大，计算机无法承受，也无法在短时间内计算出结果，所以只能用并查集来处理。</p>
+<h1 id="3-基本数据表示"><a href="#3-基本数据表示" class="headerlink" title="3.基本数据表示"></a>3.基本数据表示</h1><p><img src="https://note.youdao.com/yws/api/personal/file/WEB9baa5dad0585351024bb9f424bd93d96?method=download&shareKey=73de205f5c3e2e806e36a5f0ddb1b40b" alt="并查集基本结构"></p>
+<pre><code>...
+public：
+       UnionFind1(int n) &#123;
+       count = n;
+       id = new int[n];
+       // 初始化, 每一个id[i]指向自己, 没有合并的元素
+       for (int i = 0; i &lt; n; i++)
+           id[i] = i;
+        &#125;
+...
+</code></pre>
+<p>对于一组数据，并查集主要支持两的动作：</p>
+<ul>
+<li><p>union(p,q) - 将 p 和 q 两个元素连接起来。</p>
+</li>
+<li><p>find(p) - 查询 p 元素在哪个集合中。</p>
+</li>
+<li><p>isConnected(p,q) - 查看 p 和 q 两个元素是否相连接在一起。</p>
+</li>
+</ul>
+<h1 id="4-并查集实现方式"><a href="#4-并查集实现方式" class="headerlink" title="4.并查集实现方式"></a>4.并查集实现方式</h1><p>并查集是如何进行查询、合并和判断是否连接的呢？</p>
+<h2 id="4-1-方式1-查找很快"><a href="#4-1-方式1-查找很快" class="headerlink" title="4.1 方式1-查找很快"></a>4.1 方式1-查找很快</h2><p><strong>查询</strong>元素所在的集合编号，直接返回 id 数组值，O(1) 的时间复杂度。</p>
+<pre><code>public：
+    int find(int p) &#123;
+    assert p &gt;= 0 &amp;&amp; p &lt; count;
+    return id[p];
+    &#125;
+</code></pre>
+<p><strong>合并</strong>元素 p 和元素 q 所属的集合， 合并过程需要遍历一遍所有元素, 再将两个元素的所属集合编号合并，这个过程是 O(n) 复杂度。</p>
+<pre><code>public：
+    void unionElements(int p, int q) &#123;
+    int pID = find(p);
+    int qID = find(q);
+    if (pID == qID)
+        return;
+    for (int i = 0; i &lt; count; i++)
+        if (id[i] == pID)
+            id[i] = qID;
+    &#125;
+</code></pre>
+<h2 id="4-2-方式2-合并很快"><a href="#4-2-方式2-合并很快" class="headerlink" title="4.2 方式2-合并很快"></a>4.2 方式2-合并很快</h2><p>第4.1节中用 id 数组的形式表示并查集，其方法的合并效率并不高，下面同样以数组的另一种形式实现并查集。把每一个元素，看做是一个节点并且指向自己的父节点，根节点指向自己。比如，节点 3 指向节点 2，代表 3 和 2 是连接在一起的，节点2本身是根节点，所以指向自己。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf41ef74c767dffdcdc3725997d26f86f?method=download&shareKey=b97b88f332969bd40399577c6aeca9f8" alt="合并前"></p>
+<p>连接两个元素，只需要找到它们对应的根节点，使根节点相连，那它们就是相连的节点。假设要使上图中的 6 和 4 相连，只需要把 6 的根节点 5 指向 4 的根节点 8 即可。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB2ef4d874f32d86b38e2265efa5565e88?method=download&shareKey=6994bc8ac7242855ba7680414d8bb53e" alt="合并后"></p>
+<p>构建这种指向父节点的<strong>树形结构</strong>， 使用一个数组构建一棵指向父节点的树，parent[i] 表示 i 元素所指向的父节点。</p>
+<pre><code>private：
+    int[] parent;
+    int count;  // 数据个数
+</code></pre>
+<p>查找过程, 查找元素 p 所对应的集合编号，不断去查询自己的父亲节点, 直到到达根节点，根节点的特点 parent[p] &#x3D;&#x3D; p，O(h) 复杂度, h 为树的高度。</p>
+<pre><code>private：
+    int find(int p)&#123;
+        assert( p &gt;= 0 &amp;&amp; p &lt; count );
+        while( p != parent[p] )
+            p = parent[p];
+        return p;
+    &#125;
+</code></pre>
+<p>合并元素 p 和元素 q 所属的集合，分别查询两个元素的根节点，使其中一个根节点指向另外一个根节点，两个集合就合并了。这个操作是 O(h) 的时间复杂度，h 为树的高度。</p>
+<pre><code>public：
+   void unionElements(int p, int q)&#123;
+   int pRoot = find(p);
+   int qRoot = find(q);
+   if( pRoot == qRoot )
+       return;
+   parent[pRoot] = qRoot;
+&#125;
+</code></pre>
+<h1 id="5-并查集的优化"><a href="#5-并查集的优化" class="headerlink" title="5.并查集的优化"></a>5.并查集的优化</h1><h2 id="5-1并查集size的优化-基于集合中元素的个数"><a href="#5-1并查集size的优化-基于集合中元素的个数" class="headerlink" title="5.1并查集size的优化(基于集合中元素的个数)"></a>5.1并查集size的优化(基于集合中元素的个数)</h2><p> 按照第4.2节的思路，把下图所示的并查集，进行 union(4,9) 操作。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB2f7020d1adb09ebf4e82146f98868fc7?method=download&shareKey=27d374cba289e9e603538f90de41a352" alt="合并前"></p>
+<p>合并后：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB4339591def535eb74aca8110a2ea051f?method=download&shareKey=c7e46c3fdd27af0cfb4c682e9295cf60" alt="合并后"></p>
+<p>合并后可以发现，这个结构的树的层相对较高，若此时元素数量增多，这样产生的消耗就会相对较大。解决这个问题其实很简单，在进行具体指向操作的时候先进行判断，把<strong>元素少的集合根节点</strong>指向<strong>元素多的根节点</strong>，能更高概率的生成一个层数比较低的树。</p>
+<p>构造并查集的时候需要多一个参数，sz 数组，sz[i] 表示以 i 为根的集合中元素个数。</p>
+<pre><code>// 构造函数
+public：
+    UnionFind3(int count)&#123;
+        parent = new int[count];
+        sz = new int[count];
+        this.count = count;
+        // 初始化, 每一个parent[i]指向自己, 表示每一个元素自己自成一个集合
+        for( int i = 0 ; i &lt; count ; i ++ )&#123;
+            parent[i] = i;
+            sz[i] = 1;
+        &#125;
+    &#125;
+</code></pre>
+<p>在进行合并操作时候，根据两个元素所在树的元素个数不同判断合并方向。</p>
+<pre><code>public：
+    void unionElements(int p, int q)&#123;
+        int pRoot = find(p);
+        int qRoot = find(q);
+       if( pRoot == qRoot )
+          return;
+       if( sz[pRoot] &lt; sz[qRoot] )&#123;
+            parent[pRoot] = qRoot;
+           sz[qRoot] += sz[pRoot];
+        &#125;
+       else&#123;
+          parent[qRoot] = pRoot;
+          sz[pRoot] += sz[qRoot];
+        &#125;
+    &#125;
+</code></pre>
+<p>优化后，合并结果如下，9 指向父节点 8。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBc253683345552855a584f83da27330a7?method=download&shareKey=8403329a91d29e197118820c5ac5d3c7" alt="合并后"></p>
+<h2 id="5-2并查集-rank-的优化-基于集合中元素的层数"><a href="#5-2并查集-rank-的优化-基于集合中元素的层数" class="headerlink" title="5.2并查集 rank 的优化(基于集合中元素的层数)"></a>5.2并查集 rank 的优化(基于集合中元素的层数)</h2><p>第5.1节介绍了并查集基于 size（个数）的优化，但是某些场景下，也会存在某些问题，如下图所示，操作 union(4,2)。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBee5575d3b30084604ff5a0493f607f5f?method=download&shareKey=11ec15c8673af964cd84ce36f9fd471a" alt="合并前"></p>
+<p>根据上一小节，size 的优化，元素少的集合根节点指向元素多的根节点。操完后，层数变为4，比之前增多了一层，如下图所示：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBec2201e0d9b3fe2d63c60e8a492a920a?method=download&shareKey=10bd89460cc8e1be222d5983c914296f" alt="合并后"></p>
+<p>由此可知，依靠集合的 size 判断指向并不是完全正确的，更准确的是，根据两个集合层数，具体判断根节点的指向，层数少的集合根节点指向层数多的集合根节点，如下图所示，这就是基于 rank 的优化。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBee7661d743617d93857e8d11c4170833?method=download&shareKey=dc11e2b8fa1be39a9d2b846c8d1d5727" alt="优化合并后"></p>
+<p>我们在并查集的属性中，添加 rank 数组，rank[i] 表示以 i 为根的集合所表示的树的层数。</p>
+<pre><code>private：
+    int[] rank;   // rank[i]表示以i为根的集合所表示的树的层数
+    int[] parent; // parent[i]表示第i个元素所指向的父节点
+    int count;    // 数据个数
+</code></pre>
+<p>构造函数相应作出修改：</p>
+<pre><code>// 构造函数
+public：
+    UnionFind4(int count)&#123;
+        rank = new int[count];
+        parent = new int[count];
+        this.count = count;
+       // 初始化, 每一个parent[i]指向自己, 表示每一个元素自己自成一个集合
+       for( int i = 0 ; i &lt; count ; i ++ )&#123;
+            parent[i] = i;
+           rank[i] = 1;
+       &#125;
+    &#125;
+</code></pre>
+<p>合并两元素的时候，需要比较根节点集合的层数，整个过程是 O(h)复杂度，h为树的高度。</p>
+<pre><code>public：
+    void unionElements(int p, int q)&#123;
+        int pRoot = find(p);
+        int qRoot = find(q);
+        if( pRoot == qRoot )
+            return;
 
-        <div class="article-info info-on-right">
-          
-          
+        if( rank[pRoot] &lt; rank[qRoot] )&#123;
+            parent[pRoot] = qRoot;
+        &#125;
+        else if( rank[qRoot] &lt; rank[pRoot])&#123;
+            parent[qRoot] = pRoot;
+        &#125;
+       else&#123; // rank[pRoot] == rank[qRoot]
+           parent[pRoot] = qRoot;
+           rank[qRoot] += 1;   // 此时, 我维护rank的值
+       &#125;
+   &#125;
+</code></pre>
+<h2 id="5-3并查集路径压缩"><a href="#5-3并查集路径压缩" class="headerlink" title="5.3并查集路径压缩"></a>5.3并查集路径压缩</h2><p>并查集里的 find 函数里可以进行路径压缩，是为了更快速的查找一个点的根节点。对于一个集合树来说，它的根节点下面可以依附着许多的节点，因此，我们可以尝试在 find 的过程中，从底向上，如果此时访问的节点不是根节点的话，那么我们可以把这个节点尽量的往上挪一挪，减少数的层数，这个过程就叫做路径压缩。</p>
+<p>如下图中，find(4) 的过程就可以路径压缩，让树的层数更少。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb705f798536c57d5cb5ea3e51cb153f7?method=download&shareKey=a473f0747ae6b4c6d8cd904b8dacbf4d" alt="查找"></p>
+<p>节点 4 往上寻找根节点时，压缩第一步，树的层数就减少了一层：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB2fd1505ede39e8e5fed87f268f34d273?method=download&shareKey=82a8811b8a0c1f7815e56ac844045357" alt="查找1"></p>
+<p>节点 2 向上寻找，也不是根节点，那么把元素 2 指向原来父节点的父节点，操后后树的层数相应减少了一层，同时返回根节点 0。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB146ca87b4004baca3358e66b226fc2b9?method=download&shareKey=9871413815e4c895ee5cca55b91775fe" alt="查找2"></p>
+<p>find 过程代码修改为 ：</p>
+<pre><code>// 查找过程, 查找元素p所对应的集合编号
+// O(h)复杂度, h为树的高度
+private：
+    int find(int p)&#123;
+        assert( p &gt;= 0 &amp;&amp; p &lt; count );
 
+       // path compression 1
+       while( p != parent[p] )&#123;
+           parent[p] = parent[parent[p]];
+           p = parent[p];
+        &#125;
+        return p;
+    &#125;
+</code></pre>
+<p>上述路径压缩并不是最优的方式，我们可以把最初的树压缩成下图所示，层数是最少的。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB7189c01382af358e640127dd5303c3c5?method=download&shareKey=fddc1bc181fb5e006c34b0f37d3008ff" alt="查找3"></p>
+<p>这个 find 过程代表表示为:</p>
+<pre><code>// 查找过程, 查找元素p所对应的集合编号
+// O(h)复杂度, h为树的高度
+private：
+    int find(int p) &#123;
+        assert (p &gt;= 0 &amp;&amp; p &lt; count);
+
+        //第二种路径压缩算法
+       if (p != parent[p])
+           parent[p] = find(parent[p]);
+       return parent[p];
+    &#125;
+</code></pre>
+<p>文章参考于：<a target="_blank" rel="noopener" href="https://www.runoob.com/data-structures/union-find-quick.html">https://www.runoob.com/data-structures/union-find-quick.html</a></p>
+<p>并查集基础讲解：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mb4y1x7cH">https://www.bilibili.com/video/BV1mb4y1x7cH</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://example.com/2022/07/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B6%E6%9F%A5%E9%9B%86/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/06/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-C++(STL)-map%E3%80%81hash-map%E3%80%81unordered-map/" class="archive-article-date">
-  	<time datetime="2022-06-12T08:55:48.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-06-12</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2022/06/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-C++(STL)-map%E3%80%81hash-map%E3%80%81unordered-map/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">数据结构-c++(STL):map、hash_map、unordered_map联系与区别</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/06/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-C++(STL)-map%E3%80%81hash-map%E3%80%81unordered-map/">数据结构-c++(STL):map、hash_map、unordered_map联系与区别</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/06/05/%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2022-06-05T13:12:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/06/05/%E5%A4%A7%E8%AF%9D%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%80%BB%E7%BB%93/">《大话数据结构》程杰版——个人总结</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -269,8 +535,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
