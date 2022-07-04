@@ -325,7 +325,7 @@ public：
         &#125;
        else&#123; // rank[pRoot] == rank[qRoot]
            parent[pRoot] = qRoot;
-           rank[qRoot] += 1;   // 此时, 我维护rank的值
+           rank[qRoot] += 1;   // 此时, 维护rank的值
        &#125;
    &#125;
 </code></pre>
@@ -366,6 +366,64 @@ private：
        return parent[p];
     &#125;
 </code></pre>
+<h1 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h1><h2 id="6-1-并查集参考格式"><a href="#6-1-并查集参考格式" class="headerlink" title="6.1 并查集参考格式"></a>6.1 并查集参考格式</h2><p>综上所述，最终建立参考的并查集如下：</p>
+<pre><code>//构造函数
+public：
+    UnionFind4(int count)&#123;
+        rank = new int[count];
+        parent = new int[count];
+        this.count = count;
+       // 初始化, 每一个parent[i]指向自己, 表示每一个元素自己自成一个集合
+       for( int i = 0 ; i &lt; count ; i ++ )&#123;
+            parent[i] = i;
+           rank[i] = 1;
+       &#125;
+    &#125;
+
+// 查找过程, 查找元素p所对应的集合编号
+// O(h)复杂度, h为树的高度
+private：
+    int find(int p) &#123;
+        assert (p &gt;= 0 &amp;&amp; p &lt; count);
+
+        //第二种路径压缩算法
+       if (p != parent[p])
+           parent[p] = find(parent[p]);
+       return parent[p];
+    &#125;
+</code></pre>
+<p>合并两元素的时候，需要比较根节点集合的层数，整个过程是 O(h)复杂度，h为树的高度。</p>
+<pre><code>public：
+    void unionElements(int p, int q)&#123;
+        int pRoot = find(p);
+        int qRoot = find(q);
+        if( pRoot == qRoot )
+            return;
+
+        if( rank[pRoot] &lt; rank[qRoot] )&#123;
+            parent[pRoot] = qRoot;
+        &#125;
+        else if( rank[qRoot] &lt; rank[pRoot])&#123;
+            parent[qRoot] = pRoot;
+        &#125;
+       else&#123; // rank[pRoot] == rank[qRoot]
+           parent[pRoot] = qRoot;
+           rank[qRoot] += 1;   // 此时, 维护rank的值
+       &#125;
+       count--;
+   &#125;
+
+private：
+    int[] rank;   // rank[i]表示以i为根的集合所表示的树的层数
+    int[] parent; // parent[i]表示第i个元素所指向的父节点
+    int count;    // 数据个数
+</code></pre>
+<h2 id="6-2-并查集示例——求岛屿数量"><a href="#6-2-并查集示例——求岛屿数量" class="headerlink" title="6.2 并查集示例——求岛屿数量"></a>6.2 并查集示例——求岛屿数量</h2><p>给你一个由 ‘1’（陆地）和 ‘0’（水）组成的的二维网格，请你计算网格中岛屿的数量。岛屿总是被水包围，并且每座岛屿只能由水平方向和&#x2F;或竖直方向上相邻的陆地连接形成。此外，你可以假设该网格的四条边均被水包围。</p>
+<p><a target="_blank" rel="noopener" href="https://leetcode.cn/leetbook/read/queue-stack/kbcqv/">https://leetcode.cn/leetbook/read/queue-stack/kbcqv/</a></p>
+<p>解答：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">UnionFind</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="type">int</span> count;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; rank;</span><br><span class="line">    vector&lt;<span class="type">int</span>&gt; parent;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="built_in">UnionFind</span>(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; grid)&#123;</span><br><span class="line">          <span class="type">int</span> rows=grid.<span class="built_in">size</span>();</span><br><span class="line">          <span class="type">int</span> cols=grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">          count=<span class="number">0</span>; </span><br><span class="line"></span><br><span class="line">          <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;rows;i++)</span><br><span class="line">          &#123;</span><br><span class="line">              <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;cols;j++)</span><br><span class="line">              &#123;</span><br><span class="line">                  <span class="keyword">if</span>(grid[i][j]==<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">                  &#123;</span><br><span class="line">                      count++;</span><br><span class="line">                      parent.<span class="built_in">push_back</span>(i*cols+j);</span><br><span class="line">                      rank.<span class="built_in">push_back</span>(<span class="number">1</span>);</span><br><span class="line">                  &#125;</span><br><span class="line">                  <span class="keyword">else</span></span><br><span class="line">                  &#123;</span><br><span class="line">                      parent.<span class="built_in">push_back</span>(<span class="number">-1</span>);</span><br><span class="line">                      rank.<span class="built_in">push_back</span>(<span class="number">0</span>);</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">find</span><span class="params">(<span class="type">int</span> x)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(x!=parent[x])</span><br><span class="line">        &#123;</span><br><span class="line">            parent[x]=<span class="built_in">find</span>(parent[x]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> parent[x];</span><br><span class="line">    &#125;</span><br><span class="line"> <span class="function"><span class="type">void</span> <span class="title">Unite</span><span class="params">(<span class="type">int</span> x , <span class="type">int</span> y)</span> </span>&#123;</span><br><span class="line">         <span class="type">int</span> rootx=<span class="built_in">find</span>(x);</span><br><span class="line">         <span class="type">int</span> rooty=<span class="built_in">find</span>(y);</span><br><span class="line"></span><br><span class="line">         <span class="keyword">if</span>(rootx!=rooty)</span><br><span class="line">         &#123;</span><br><span class="line">              <span class="keyword">if</span>(rank[rootx]&lt;rank[rooty]) <span class="comment">//注意此时是针对根节点的信息进行判断和操作</span></span><br><span class="line">              &#123;</span><br><span class="line">                   parent[rootx]=rooty;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">else</span> <span class="keyword">if</span>(rank[rooty]&lt;rank[rootx])</span><br><span class="line">              &#123;</span><br><span class="line">                   parent[rooty]=rootx;</span><br><span class="line">              &#125;</span><br><span class="line">              <span class="keyword">else</span></span><br><span class="line">              &#123;</span><br><span class="line">                   parent[rootx]=rooty;</span><br><span class="line">                   rank[y]+=<span class="number">1</span>;</span><br><span class="line">              &#125;</span><br><span class="line">              count--;</span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">getcount</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> count;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Solution</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="type">int</span> nums;</span><br><span class="line">    <span class="function"><span class="type">int</span> <span class="title">numIslands</span><span class="params">(vector&lt;vector&lt;<span class="type">char</span>&gt;&gt;&amp; grid)</span> </span>&#123;</span><br><span class="line">        <span class="type">int</span> rows=grid.<span class="built_in">size</span>();</span><br><span class="line">        <span class="keyword">if</span>(!rows) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        <span class="type">int</span> cols=grid[<span class="number">0</span>].<span class="built_in">size</span>();</span><br><span class="line">        <span class="function">UnionFind <span class="title">uf</span><span class="params">(grid)</span></span>;</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;rows;i++)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">for</span>(<span class="type">int</span> j=<span class="number">0</span>;j&lt;cols;j++)</span><br><span class="line">            &#123;</span><br><span class="line">                 <span class="keyword">if</span>(grid[i][j]==<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">                 &#123;</span><br><span class="line">                     <span class="keyword">if</span>(i<span class="number">-1</span>&gt;=<span class="number">0</span> &amp;&amp; grid[i<span class="number">-1</span>][j]==<span class="string">&#x27;1&#x27;</span>) uf.<span class="built_in">Unite</span>(i*cols+j,(i<span class="number">-1</span>)*cols+j);</span><br><span class="line">                     <span class="keyword">if</span>(i+<span class="number">1</span>&lt;rows &amp;&amp; grid[i+<span class="number">1</span>][j]==<span class="string">&#x27;1&#x27;</span>) uf.<span class="built_in">Unite</span>(i*cols+j,(i+<span class="number">1</span>)*cols+j);</span><br><span class="line">                     <span class="keyword">if</span>(j<span class="number">-1</span>&gt;=<span class="number">0</span> &amp;&amp; grid[i][j<span class="number">-1</span>]==<span class="string">&#x27;1&#x27;</span>) uf.<span class="built_in">Unite</span>(i*cols+j,i*cols+(j<span class="number">-1</span>));</span><br><span class="line">                     <span class="keyword">if</span>(j+<span class="number">1</span>&lt;cols &amp;&amp; grid[i][j+<span class="number">1</span>]==<span class="string">&#x27;1&#x27;</span>) uf.<span class="built_in">Unite</span>(i*cols+j,i*cols+(j+<span class="number">1</span>));</span><br><span class="line">                 &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> uf.<span class="built_in">getcount</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
 <p>文章参考于：<a target="_blank" rel="noopener" href="https://www.runoob.com/data-structures/union-find-quick.html">https://www.runoob.com/data-structures/union-find-quick.html</a></p>
 <p>并查集基础讲解：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1mb4y1x7cH">https://www.bilibili.com/video/BV1mb4y1x7cH</a></p>
 
