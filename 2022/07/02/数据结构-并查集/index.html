@@ -8,12 +8,12 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>数据结构-并查集 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.基本介绍定义：并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。 主要构成：并查集主要由一个整型数组pre[ ]和两个函数find( )、joi">
+  <meta name="description" content="1.基本介绍定义：并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="数据结构-并查集">
 <meta property="og:url" content="http://example.com/2022/07/02/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84-%E5%B9%B6%E6%9F%A5%E9%9B%86/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1.基本介绍定义：并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。 主要构成：并查集主要由一个整型数组pre[ ]和两个函数find( )、joi">
+<meta property="og:description" content="1.基本介绍定义：并查集是一种树型的数据结构，用于处理一些不相交集合的合并及查询问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB9baa5dad0585351024bb9f424bd93d96?method=download&shareKey=73de205f5c3e2e806e36a5f0ddb1b40b">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBf41ef74c767dffdcdc3725997d26f86f?method=download&shareKey=b97b88f332969bd40399577c6aeca9f8">
@@ -29,7 +29,7 @@
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB146ca87b4004baca3358e66b226fc2b9?method=download&shareKey=9871413815e4c895ee5cca55b91775fe">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB7189c01382af358e640127dd5303c3c5?method=download&shareKey=fddc1bc181fb5e006c34b0f37d3008ff">
 <meta property="article:published_time" content="2022-07-02T09:01:49.000Z">
-<meta property="article:modified_time" content="2022-07-04T02:32:09.291Z">
+<meta property="article:modified_time" content="2022-07-04T02:40:41.099Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/WEB9baa5dad0585351024bb9f424bd93d96?method=download&shareKey=73de205f5c3e2e806e36a5f0ddb1b40b">
@@ -189,6 +189,8 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="1-基本介绍"><a href="#1-基本介绍" class="headerlink" title="1.基本介绍"></a>1.基本介绍</h1><p>定义：并查集是一种树型的数据结构，用于处理一些不相交集合的<strong>合并</strong>及<strong>查询</strong>问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。<br>并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。</p>
+<span id="more"></span>
+
 <p>主要构成：<br>并查集主要由一个整型数组pre[ ]和两个函数find( )、join( )构成。<br>数组 pre[ ] 记录了每个点的前驱节点是谁，函数 find(x) 用于查找指定节点 x 属于哪个集合，函数 join(x,y) 用于合并两个节点 x 和 y 。  底层逻辑：查看两个节点是否属于同一集合，就判断它们的根节点是否相同；往集合中加入节点，就把节点作为集合中任意节点的子节点插入即可。</p>
 <p>作用：<br>并查集的主要作用是求连通分支数（如果一个图中所有点都存在可达关系（直接或间接相连），则此图的连通分支数为1；如果此图有两大子图各自全部可达，则此图的连通分支数为2……）</p>
 <h1 id="2-适用说明"><a href="#2-适用说明" class="headerlink" title="2.适用说明"></a>2.适用说明</h1><p>并查集用在一些有 N 个元素的集合应用问题中，我们通常是在开始时让每个元素构成一个单元素的集合，然后按一定顺序将属于同一组的元素所在的集合合并，其间要反复查找一个元素在哪个集合中。这个过程看似并不复杂，但数据量极大，若用其他的数据结构来描述的话，往往在空间上过大，计算机无法承受，也无法在短时间内计算出结果，所以只能用并查集来处理。</p>
