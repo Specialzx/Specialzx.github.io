@@ -8,17 +8,37 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>C++:动态库和静态库开发 | ZXblog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="参考视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Kt411775b">
+  <meta name="description" content="1.引言">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C++:动态库和静态库开发">
 <meta property="og:url" content="http://example.com/2022/07/06/C++-%E5%8A%A8%E6%80%81%E5%BA%93%E5%92%8C%E9%9D%99%E6%80%81%E5%BA%93%E5%BC%80%E5%8F%91/index.html">
 <meta property="og:site_name" content="ZXblog">
-<meta property="og:description" content="参考视频：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Kt411775b">
+<meta property="og:description" content="1.引言">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB838e3cef6b142f340f3c8ab7d7f99768?method=download&shareKey=c0e52d826d90cefa0877c4c426ac07b1">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBf4e31114bc3e747869d3805e25553195?method=download&shareKey=6da9394d720d59cac9b6d8282cc4073a">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB53296141e9e555151dce14f0b81e8cef?method=download&shareKey=e136759df94a8dd8e6cf4feb06d4ea6c">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB9135d60ac5b7ce592e66fbc44d52140c?method=download&shareKey=88358d53310e05908a0c1461525c596c">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB69ce387538a52677a7ad27954ea3d208?method=download&shareKey=699507d3a05f070a28eb9a2c4e6c49c0">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBe63106116083425d9cc9aede4ffdce9a?method=download&shareKey=d933b5a22aca55fd70ca8decdde4aeb3">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB4bcdaa6bdd987d71e910c4603619c0b1?method=download&shareKey=bf9e53a85a8aa5c20df69398e9e87d7a">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBb75486f421d3e04b35749bcf6fcd6fd9?method=download&shareKey=3ba357f23226f7ca8382db40932192f3">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBed651c6da435139d47d7fa52b2c07ab1?method=download&shareKey=8eae833a754850b59627abe8802488dd">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBb158edbb50354008be9ba53825175486?method=download&shareKey=46e9b8bd0dd6523cf01030d9792a086a">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBf42db3fdeb1700963f913d6dbe6f25b5?method=download&shareKey=19aca40684064e857400c470696cae49">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB0dd32ea0d2705ed39fd33889af16ad75?method=download&shareKey=f7f75ab7cb39646a248ce34af7b91ba4">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB2362c384d21cf3639bcbbd3b8abecba9?method=download&shareKey=b4230123f11ac123be26ed01f881ab2e">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB178438af8ea8c59349bee2205abc1025?method=download&shareKey=6e9c2470c12d481a41989e55f9bca89d">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBc28524f08dae5bce2989ad755b529bb8?method=download&shareKey=66a559b2eacd860fd182f96fb7c7bdc1">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEBf469edb945b3fc4afe1f71c7b78a8dca?method=download&shareKey=d44778ed312f28a502d478566f4feefc">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB10d645c82897aaba6c6e42b227ff0c84?method=download&shareKey=1ded7222ac07a37f5c760d9780443860">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB52e9b976ebcf32d5cd2c33967d1232e2?method=download&shareKey=238f4b4d9a0d3333fa3c1b370f269af3">
+<meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB66da2972f37f9de2e0bf3b79faa4a9e9?method=download&shareKey=f5e0d79e90201095e13c0bd7ca910cac">
 <meta property="article:published_time" content="2022-07-06T15:14:29.000Z">
-<meta property="article:modified_time" content="2022-07-12T08:03:37.706Z">
+<meta property="article:modified_time" content="2022-07-17T13:11:51.224Z">
 <meta property="article:author" content="By ZX">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/api/personal/file/WEB838e3cef6b142f340f3c8ab7d7f99768?method=download&shareKey=c0e52d826d90cefa0877c4c426ac07b1">
   
     <link rel="alternative" href="/atom.xml" title="ZXblog" type="application/atom+xml">
   
@@ -182,7 +202,149 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kt411775b">https://www.bilibili.com/video/BV1Kt411775b</a></p>
+        <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><span id="more"></span>
+
+<h1 id="2-简介"><a href="#2-简介" class="headerlink" title="2.简介"></a>2.简介</h1><p>windows下obj,lib,dll；linux下.o,.a,.so 。库的作用：代码重用；模块化开发。</p>
+<p>lib是和dll对应的。lib是静态链接库的库文件，dll是动态链接库的库文件。 </p>
+<p>所谓静态就是link的时候把里面需要的东西抽取出来安排到你的exe文件中，以后运行你的exe的时候不再需要lib，所以lib调用越多，exe 体积越大。</p>
+<p>所谓动态就是exe运行的时候依赖于dll里面提供的功能，没有这个dll，你的exe无法运行。动态库也有利于软件升级，比如下载新dll并替换后，重启软件即完成升级。</p>
+<p>lib,dll,exe都算是最终的目标文件，是最终产物。而c&#x2F;c++属于源代码。源代码和最终目标文件中过渡的就是中间代码obj，实际上之所以需要中间代码，是你不可能一次得到目标文件。比如说一个exe需要很多的cpp文件生成。而编译器一次只能编译一个cpp文件。这样编译器编译好一个cpp以后会将其编译成obj，当所有必须要的cpp都编译成obj以后，再统一link成所需要的exe，应该说缺少任意一个obj都会导致exe的链接失败。</p>
+<ol>
+<li>obj里存的是编译后的代码跟数据，并且有名称，所以在连接时有时会出现未解决的外部符号的问题。当连成exe后便不存在名称的概念了，只有地址。lib就是一堆obj的组合。</li>
+<li>理论上可以连接obj文件来引用其他工程(可以认为一个obj文件等价于编译生成它的cpp文件,可以引用obj来替换cpp,也可以添加cpp来替换obj )，但实际中通常用lib来实现工程间相互引用。</li>
+<li>编译器会默认链接一些常用的库，其它的需要你自己指定。</li>
+</ol>
+<p>代码分发方式：</p>
+<ul>
+<li><p>源码：头文件+源文件</p>
+</li>
+<li><p>动态库：头文件（可选）+LIB文件（可选）+DLL文件</p>
+</li>
+<li><p>静态库：头文件+LIB文件</p>
+</li>
+</ul>
+<p>优缺点对比：<br><img src="https://note.youdao.com/yws/api/personal/file/WEB838e3cef6b142f340f3c8ab7d7f99768?method=download&shareKey=c0e52d826d90cefa0877c4c426ac07b1" alt="对比"></p>
+<p>C&#x2F;C++到可执行程序的过程：<br><img src="https://note.youdao.com/yws/api/personal/file/WEBf4e31114bc3e747869d3805e25553195?method=download&shareKey=6da9394d720d59cac9b6d8282cc4073a" alt="过程"></p>
+<h1 id="3-静态库"><a href="#3-静态库" class="headerlink" title="3.静态库"></a>3.静态库</h1><h2 id="3-1-建立静态库"><a href="#3-1-建立静态库" class="headerlink" title="3.1 建立静态库"></a>3.1 建立静态库</h2><p>建立一个静态库的工程项目testlib(这里解决方案名称也是testlib)，并编写.h  .cpp 文件：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB53296141e9e555151dce14f0b81e8cef?method=download&shareKey=e136759df94a8dd8e6cf4feb06d4ea6c" alt="建立.h.cpp"></p>
+<p>点击生成后，就在相应的文件夹下生成lib文件</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB9135d60ac5b7ce592e66fbc44d52140c?method=download&shareKey=88358d53310e05908a0c1461525c596c" alt="生成.lib"></p>
+<p>一般静态库发布的格式为（可参考opencv）：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB69ce387538a52677a7ad27954ea3d208?method=download&shareKey=699507d3a05f070a28eb9a2c4e6c49c0" alt="发布"></p>
+<h2 id="3-2-使用静态库"><a href="#3-2-使用静态库" class="headerlink" title="3.2 使用静态库"></a>3.2 使用静态库</h2><p>此时需要包含头文件（头文件的路径也可以在”<strong>项目属性-C&#x2F;C++-附加包含目录</strong>“中设置）。还需要在”<strong>项目属性-链接器-常规-附加库目录</strong>“中添加lib文件所在路径（最好是相对路径）。最后再在程序中加入：#pragma comment( lib,”testlib.lib”) 或者 在”<strong>项目属性-链接器-输入-附加依赖项</strong>“中添加上LIB文件的名称testlib.lib，即可省略#pragma…。</p>
+<p>如果以上设置均在项目属性中完成，那么程序中仅需include头文件即可，并且可以使用&lt;&gt;，如#include &lt;testlib.h&gt;</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBe63106116083425d9cc9aede4ffdce9a?method=download&shareKey=d933b5a22aca55fd70ca8decdde4aeb3" alt="使用2"></p>
+<p>注意，test项目的当前工作目录为：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB4bcdaa6bdd987d71e910c4603619c0b1?method=download&shareKey=bf9e53a85a8aa5c20df69398e9e87d7a" alt="目录1"></p>
+<p>此时解决方案的目录为（包含两个项目）：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb75486f421d3e04b35749bcf6fcd6fd9?method=download&shareKey=3ba357f23226f7ca8382db40932192f3" alt="目录2"></p>
+<h1 id="4-动态库"><a href="#4-动态库" class="headerlink" title="4.动态库"></a>4.动态库</h1><p>推荐：查看dll中的导出接口、功能的软件：Dependency Walker</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="http://www.dependencywalker.com/">www.dependencywalker.com</a></p>
+<h2 id="4-1-建立动态库"><a href="#4-1-建立动态库" class="headerlink" title="4.1 建立动态库"></a>4.1 建立动态库</h2><p>建立一个动态库的工程项目testdll(这里解决方案名称也是testdll)，并编写.h  .cpp 文件：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBed651c6da435139d47d7fa52b2c07ab1?method=download&shareKey=8eae833a754850b59627abe8802488dd" alt="建立.h.cpp"></p>
+<p>点击生成后，就在相应的文件夹下生成dll文件</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBb158edbb50354008be9ba53825175486?method=download&shareKey=46e9b8bd0dd6523cf01030d9792a086a" alt="建立.lib"></p>
+<p>但是以上还不够完善，需进一步：</p>
+<ol>
+<li>_declspec(dllexport)：<strong>声明导出函数</strong>，加了这一句就可以在Dependency Walker软件中查看导出接口。此时生成项目时，会多生成一个testdll.lib和testdll.exp文件</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf42db3fdeb1700963f913d6dbe6f25b5?method=download&shareKey=19aca40684064e857400c470696cae49" alt="修改建立1"></p>
+<ol start="2">
+<li>但是为了在大型项目中导出导入使用时更方便统一，可以<strong>选择</strong>再进一步修改如下：</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB0dd32ea0d2705ed39fd33889af16ad75?method=download&shareKey=f7f75ab7cb39646a248ce34af7b91ba4" alt="修改建立2"></p>
+<p>此时还需要在testdll的”项目属性页-C&#x2F;C++-预处理器-预处理器定义”中添加一个预处理变量”_DLLAPI”，<strong>即为了使建立dll时使用export，使用dll时使用imporrt</strong>。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB2362c384d21cf3639bcbbd3b8abecba9?method=download&shareKey=b4230123f11ac123be26ed01f881ab2e" alt="建立设置"></p>
+<ol start="3">
+<li><p>存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(**原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号**)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。</li>
+</ol>
+<blockquote>
+<blockquote>
+<p>解决方法：</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<ol>
+<li>把文件从.cpp改为.c使用C语言编译器编译即可；</li>
+</ol>
+</blockquote>
+</blockquote>
+<blockquote>
+<blockquote>
+<ol start="2">
+<li>在声明导出函数时，再加上extern “C”。并且在使用动态库，导入函数时也需要加上extern “C”。</li>
+</ol>
+</blockquote>
+</blockquote>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB178438af8ea8c59349bee2205abc1025?method=download&shareKey=6e9c2470c12d481a41989e55f9bca89d" alt="解决"></p>
+<blockquote>
+<blockquote>
+<ol start="3">
+<li>微软还提供了另外一种方式：添加模块定义文件.def。此时在dll的头文件中就不需要extern “C” 和  _declspec(dllexport)了。但是使用动态库时依然需要。</li>
+</ol>
+</blockquote>
+</blockquote>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBc28524f08dae5bce2989ad755b529bb8?method=download&shareKey=66a559b2eacd860fd182f96fb7c7bdc1" alt="模块定义文件"></p>
+<h2 id="4-2-使用动态库"><a href="#4-2-使用动态库" class="headerlink" title="4.2 使用动态库"></a>4.2 使用动态库</h2><h3 id="方法一：（隐式调用动态库）-简单、推荐使用"><a href="#方法一：（隐式调用动态库）-简单、推荐使用" class="headerlink" title="方法一：（隐式调用动态库） 简单、推荐使用"></a>方法一：（隐式调用动态库） 简单、推荐使用</h3><ul>
+<li><p>方法基本同静态库使用：需要包含头文件（头文件的路径也可以在”<strong>项目属性-C&#x2F;C++-附加包含目录</strong>“中设置）。还需要在”<strong>项目属性-链接器-常规-附加库目录</strong>“中添加lib文件所在路径（最好是相对路径）。最后再在程序中加入：#pragma comment( lib,”testlib.lib”) 或者 在”<strong>项目属性-链接器-输入-附加依赖项</strong>“中添加上LIB文件的名称testlib.lib，即可省略#pragma…。</p>
+</li>
+<li><p>如果以上设置均在项目属性中完成，那么程序中仅需include头文件即可，并且可以使用&lt;&gt;，如#include &lt;testlib.h&gt; </p>
+</li>
+<li><p>注意此时的lib文件不是真正的静态库，只是提供导出函数。</p>
+</li>
+<li><p>另外需要把相应的dll文件放在该项目的当前工作目录中(放在Windows其他的dll搜索路径也是可以行的)。</p>
+</li>
+</ul>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBf469edb945b3fc4afe1f71c7b78a8dca?method=download&shareKey=d44778ed312f28a502d478566f4feefc" alt="隐式调用"></p>
+<h3 id="方法二：（显式调用动态库）"><a href="#方法二：（显式调用动态库）" class="headerlink" title="方法二：（显式调用动态库）"></a>方法二：（显式调用动态库）</h3><ul>
+<li><p>先包含头文件：include “..ftestdll&#x2F;testdll.h”</p>
+<pre><code>         include &lt;Windows.h&gt;
+</code></pre>
+</li>
+<li><p>加载dll文件：什么时候需要使用什么时候加载进来，使用完了就释放掉</p>
+</li>
+</ul>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB10d645c82897aaba6c6e42b227ff0c84?method=download&shareKey=1ded7222ac07a37f5c760d9780443860" alt="显式调用1"></p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB52e9b976ebcf32d5cd2c33967d1232e2?method=download&shareKey=238f4b4d9a0d3333fa3c1b370f269af3" alt="显式调用2"></p>
+<h2>
+<font color=red><b> 4.3 使用dll时用隐式调用动态库测试</b></font>
+</h2>
+
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/TonyWangAlfa/article/details/100579412">https://blog.csdn.net/TonyWangAlfa/article/details/100579412</a></p>
+<ul>
+<li><p>如果dll库文件内使用了**extern “C”**，如extern “C” _declspec(dllexport) int add(int a, int b);，那使用时也必须加上，如：extern “C” _declspec(dllimport) int add(int a, int b);</p>
+</li>
+<li><p>如果包含了头文件，可以不用加extern “C” _declspec(dllimport) int add(int a, int b);但是不包含头文件时，必须加。</p>
+</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#include &lt;pch.h&gt;   //动态库头文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> _declspec(dllimport) <span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line"><span class="keyword">extern</span> <span class="string">&quot;C&quot;</span> _declspec(dllimport) <span class="function"><span class="type">int</span> <span class="title">sub</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>, b = <span class="number">6</span>;</span><br><span class="line">	cout &lt;&lt; <span class="built_in">add</span>(<span class="number">3</span>, <span class="number">6</span>) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="built_in">sub</span>(<span class="number">3</span>, <span class="number">6</span>) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;pch.h&gt;</span>   <span class="comment">//动态库头文件</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">//extern &quot;C&quot; _declspec(dllimport) int add(int a, int b);</span></span><br><span class="line"><span class="comment">//extern &quot;C&quot; _declspec(dllimport) int sub(int a, int b);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>, b = <span class="number">6</span>;</span><br><span class="line">	cout &lt;&lt; <span class="built_in">add</span>(<span class="number">3</span>, <span class="number">6</span>) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="built_in">sub</span>(<span class="number">3</span>, <span class="number">6</span>) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>说明</strong>：不使用 __declspec(dllimport)也能正确编译代码，但使用 __declspec(dllimport) 使编译器可以生成更好的代码。编译器之所以能够生成更好的代码，是因为它可以确定函数是否存在于 DLL 中，这使得编译器可以生成跳过间接寻址级别的代码，而这些代码通常会出现在跨DLL 边界的函数调用中。但是，必须使用 __declspec(dllimport) 才能导入 DLL 中使用的变量。</p>
+<p>所以，对于<strong>动态库本身</strong>必须使用关键字__declspec(dllexport)，对于<strong>应用程序</strong>，如果不使用动态库导出的变量，不使用关键字__declspec(dllimport)也可以保证动态库的正常使用，但实际使用中，还是建议应用程序使用关键字__declspec(dllimport)</p>
+<h2>
+<font color=red><b> 4.4 构建dll时使用模块定义文件测试</b></font>
+</h2>
+
+<p>如下图：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB66da2972f37f9de2e0bf3b79faa4a9e9?method=download&shareKey=f5e0d79e90201095e13c0bd7ca910cac" alt="显式调用2"></p>
+<p><strong>注意</strong>：此时在使用dll时，不需要extern “C”了，如下。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//#include &lt;pch.h&gt;</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"></span><br><span class="line"> _declspec(dllimport) <span class="function"><span class="type">int</span> <span class="title">add</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line"> _declspec(dllimport) <span class="function"><span class="type">int</span> <span class="title">sub</span><span class="params">(<span class="type">int</span> a, <span class="type">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="type">int</span> a = <span class="number">3</span>, b = <span class="number">6</span>;</span><br><span class="line">	cout &lt;&lt; <span class="built_in">add</span>(<span class="number">3</span>, <span class="number">6</span>) &lt;&lt; endl;</span><br><span class="line">	cout &lt;&lt; <span class="built_in">sub</span>(<span class="number">3</span>, <span class="number">6</span>) &lt;&lt; endl;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<p>参考视频1： <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Kt411775b">https://www.bilibili.com/video/BV1Kt411775b</a></p>
+<p>参考视频2： <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1XE411k7PN/">https://www.bilibili.com/video/BV1XE411k7PN/</a> </p>
 
       
 
@@ -305,7 +467,11 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    目录暂不存在
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">1.引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E7%AE%80%E4%BB%8B"><span class="toc-number">2.</span> <span class="toc-text">2.简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">3.</span> <span class="toc-text">3.静态库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%BB%BA%E7%AB%8B%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 建立静态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E4%BD%BF%E7%94%A8%E9%9D%99%E6%80%81%E5%BA%93"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 使用静态库</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">4.</span> <span class="toc-text">4.动态库</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E5%BB%BA%E7%AB%8B%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 建立动态库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E4%BD%BF%E7%94%A8%E5%8A%A8%E6%80%81%E5%BA%93"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 使用动态库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%B8%80%EF%BC%9A%EF%BC%88%E9%9A%90%E5%BC%8F%E8%B0%83%E7%94%A8%E5%8A%A8%E6%80%81%E5%BA%93%EF%BC%89-%E7%AE%80%E5%8D%95%E3%80%81%E6%8E%A8%E8%8D%90%E4%BD%BF%E7%94%A8"><span class="toc-number">4.2.1.</span> <span class="toc-text">方法一：（隐式调用动态库） 简单、推荐使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B9%E6%B3%95%E4%BA%8C%EF%BC%9A%EF%BC%88%E6%98%BE%E5%BC%8F%E8%B0%83%E7%94%A8%E5%8A%A8%E6%80%81%E5%BA%93%EF%BC%89"><span class="toc-number">4.2.2.</span> <span class="toc-text">方法二：（显式调用动态库）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">4.3.</span> <span class="toc-text">
+ 4.3 使用dll时用隐式调用动态库测试
+</span></a></li><li class="toc-item toc-level-2"><a class="toc-link"><span class="toc-number">4.4.</span> <span class="toc-text">
+ 4.4 构建dll时使用模块定义文件测试
+</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
