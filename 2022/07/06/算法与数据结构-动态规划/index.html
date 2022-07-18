@@ -74,7 +74,11 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+				<li><a href="/categories">分类</a></li>
+	        
+				<li><a href="/archives/index.html">归档</a></li>
+	        
+				<li><a href="/tags">标签</a></li>
 	        
 			</ul>
 		</nav>
@@ -132,6 +136,10 @@
 			
 				
 			
+				
+			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -151,12 +159,16 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 25%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 25%"><a href="/categories">分类</a></li>
+		        
+					<li style="width: 25%"><a href="/archives/index.html">归档</a></li>
+		        
+					<li style="width: 25%"><a href="/tags">标签</a></li>
 		        
 				</ul>
 			</nav>
@@ -191,6 +203,110 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+        
+          
+            <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><p>这几天刷Leetcode时初步接触到动态规划的题，被这解法震撼到了。用其他解法会很复杂的题，用动态规划可以很简洁的就实现。<br>比如：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/">https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/</a></p>
+<span id="more"></span>
+
+<h1 id="2-什么是动态规划？"><a href="#2-什么是动态规划？" class="headerlink" title="2.什么是动态规划？"></a>2.什么是动态规划？</h1><p>动态规划（英语：Dynamic programming，简称 DP），是一种在数学、管理科学、计算机科学、经济学和生物信息学中使用的，通过把原问题分解为相对简单的子问题的方式求解复杂问题的方法。动态规划常常适用于有<strong>重叠子问题和最优子结构性质</strong>的问题</p>
+<p>简单来说，动态规划其实就是，给定一个问题，我们把它拆成一个个子问题，直到子问题可以直接解决。在每一步中把子问题答案保存起来，以减少重复计算。再根据子问题答案反推，得出原问题解的一种方法。</p>
+<blockquote>
+<p>★ 一般这些子问题很相似，可以通过函数关系式递推出来。然后呢，动态规划就致力于解决每个子问题一次，减少重复计算,比如斐波那契数列就可以看做入门级的经典动态规划问题。</p>
+</blockquote>
+<h2 id="重叠子问题"><a href="#重叠子问题" class="headerlink" title="重叠子问题"></a>重叠子问题</h2><p>动态规划的子问题是有重叠的，即各个子问题中包含重复的更小子问题。若使用暴力法穷举，求解这些相同子问题会产生大量的重复计算，效率低下。</p>
+<p>动态规划在第一次求解某子问题时，会将子问题的解保存至矩阵中；后续遇到重叠子问题时，则直接通过查表获取解，保证每个独立子问题只被计算一次，从而降低算法的时间复杂度。</p>
+<h2 id="最优子结构"><a href="#最优子结构" class="headerlink" title="最优子结构"></a>最优子结构</h2><p>如果一个问题的最优解可以由其子问题的最优解组合构成，那么称此问题具有最优子结构。</p>
+<p>动态规划从基础问题的解开始，不断迭代组合、选择子问题的最优解，最终得到原问题最优解。</p>
+<h1 id="3-动态规划的题目示例"><a href="#3-动态规划的题目示例" class="headerlink" title="3.动态规划的题目示例"></a>3.动态规划的题目示例</h1><h2 id="3-1-引例1：重叠子问题-斐波那契数列"><a href="#3-1-引例1：重叠子问题-斐波那契数列" class="headerlink" title="3.1 引例1：重叠子问题-斐波那契数列"></a>3.1 引例1：重叠子问题-斐波那契数列</h2><p>题目：斐波那契数形成的数列为[0,1,1,2,3,5,8,13,⋯] ，数学定义如下：</p>
+<p>F0&#x3D;0；F1&#x3D;1；Fn&#x3D;Fn−1+Fn−2</p>
+<p> 求取第 n 个斐波那契数（从第 0 个斐波那契数开始）。</p>
+<p>本节从「暴力递归」→「记忆化递归」→「动态规划」三种解法，介绍<strong>重叠子问题</strong>的概念与解决方案。</p>
+<h3 id="方法一：暴力递归"><a href="#方法一：暴力递归" class="headerlink" title="方法一：暴力递归"></a>方法一：暴力递归</h3><p>使用分治思想来求取 f(n) ，即将求原问题 f(n) 分解为求子问题 f(n-1) 和 f(n−2) ，向下递归直至已知的 f(0) 和 f(1) ，最终组合这些子问题求取原问题 f(n)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacci</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>; <span class="comment">// 返回 f(0)</span></span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>; <span class="comment">// 返回 f(1)</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">fibonacci</span>(n - <span class="number">1</span>) + <span class="built_in">fibonacci</span>(n - <span class="number">2</span>); <span class="comment">// 分解为两个子问题求解</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBff6bf7ffa2b5ce7a44b04a76b9224323?method=download&shareKey=db0e3898735d5a4d32b94c98600e24e7" alt="暴力递归"></p>
+<p>暴力递归的总体时间复杂度为 O(2^n) 。此方法效率低下，随着 nn 的增长产生指数级爆炸。</p>
+<h3 id="方法二：记忆化递归"><a href="#方法二：记忆化递归" class="headerlink" title="方法二：记忆化递归"></a>方法二：记忆化递归</h3><p>这些重叠子问题产生了大量的递归树节点，其不应被重复计算。实际上，可以在递归中第一次求解子问题时，就将它们保存；后续递归中再次遇到相同子问题时，直接访问内存赋值即可。记忆化递归的代码如下所示。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacci</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt; &amp;dp)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;           <span class="comment">// 返回 f(0)</span></span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">1</span>) <span class="keyword">return</span> <span class="number">1</span>;           <span class="comment">// 返回 f(1)</span></span><br><span class="line">    <span class="keyword">if</span> (dp[n] != <span class="number">0</span>) <span class="keyword">return</span> dp[n];   <span class="comment">// 若 f(n) 以前已经计算过，则直接返回记录的解</span></span><br><span class="line">    dp[n] = <span class="built_in">fibonacci</span>(n - <span class="number">1</span>, dp) + <span class="built_in">fibonacci</span>(n - <span class="number">2</span>, dp); <span class="comment">// 将 f(n) 则记录至 dp</span></span><br><span class="line">    <span class="keyword">return</span> dp[n];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 求第 n 个斐波那契数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacciMemorized</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>; <span class="comment">// 用于保存 f(0) 至 f(n) 问题的解</span></span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">fibonacci</span>(n, dp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEBefad43c99ac9f8d05065d57bca45f9f3?method=download&shareKey=15782d11f593e461380df745447ee657" alt="记忆化递归"></p>
+<p>应用记忆化递归方法后，递归树中绝大部分节点被剪枝。此时，fibonacci() 函数的调用次数从 O(2^n) 指数级别降低至 O(n) 线性级别，时间复杂度大大降低。</p>
+<h3>
+<font color=red><b> 方法三：动态规划</b></font>
+</h3>
+
+<p>递归本质上是基于分治思想的<strong>从顶至底</strong>的解法。借助记忆化递归思想，可应用动态规划<strong>从底至顶</strong>求取 f(n) ，代码如下所示。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求第 n 个斐波那契数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacci</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;          <span class="comment">// 若求 f(0) 则直接返回 0</span></span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;      <span class="comment">// 初始化 dp 列表</span></span><br><span class="line">    dp[<span class="number">1</span>] = <span class="number">1</span>;                     <span class="comment">// 初始化 f(0), f(1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123; <span class="comment">// 状态转移求取 f(2), f(3), ..., f(n) </span></span><br><span class="line">        dp[i] = dp[i - <span class="number">1</span>] + dp[i - <span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[n];                  <span class="comment">// 返回 f(n)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如下图所示，为动态规划求解 f(5) 的迭代流程，其是<strong>状态转移方程f(n)&#x3D;f(n-1)+f(n-2)</strong> 的体现。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB25421fe6581518e1f87757ad08088079?method=download&shareKey=40101f7923bd63a101050517ab93dd2d" alt="记忆化递归"></p>
+<p>上述动态规划解法借助了一个 dp 数组保存子问题的解，其空间复杂度为 O(N) 。而由于 f(n) 只与 f(n - 1) 和 f(n - 2) 有关，因此我们可以仅使用两个变量 a , b 交替前进计算即可。此时动态规划的<strong>空间复杂度</strong>降低至 O(1) ，代码如下所示。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 求第 n 个斐波那契数</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">fibonacci</span><span class="params">(<span class="type">int</span> n)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n == <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;           <span class="comment">// 若求 f(0) 则直接返回 0</span></span><br><span class="line">    <span class="type">int</span> a = <span class="number">0</span>, b = <span class="number">1</span>;               <span class="comment">// 初始化 f(0), f(1)</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;  <span class="comment">// 状态转移求取 f(2), f(3), ..., f(n) </span></span><br><span class="line">        <span class="type">int</span> tmp = a;</span><br><span class="line">        a = b;</span><br><span class="line">        b = tmp + b;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> b;                       <span class="comment">// 返回 f(n)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>记忆化递归和动态规划的本质思想是一致的，是对斐波那契数列定义的不同表现形式：</p>
+<ul>
+<li>记忆化递归 — <strong>从顶至低</strong>： 求 f(n) 需要 f(n−1) 和 f(n−2) ； ⋯ ；求 f(2) 需要 f(1) 和 f(0) ；而 f(1) 和 f(0) 已知；</li>
+<li>动态规划 — <strong>从底至顶</strong>： 将已知 f(0) 和 f(1) 组合得到 f(2) ；⋯ ；将 f(n−2) 和 f(n−1) 组合得到 f(n) ；</li>
+</ul>
+<p>斐波那契数列问题不包含「最优子结构」，只需计算每个子问题的解，避免重复计算即可，并不需要从子问题组合中选择最优组合</p>
+<h2 id="3-2-引例2：最优子结构示例-蛋糕最高售价"><a href="#3-2-引例2：最优子结构示例-蛋糕最高售价" class="headerlink" title="3.2 引例2：最优子结构示例-蛋糕最高售价"></a>3.2 引例2：最优子结构示例-蛋糕最高售价</h2><p>问题：小力开了一家蛋糕店，并针对不同重量的蛋糕设定了不同售价，前几个价格示意图如下图所示：</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB7839fef28a5b506252a580d83fd5afd9?method=download&shareKey=f9f2d323239296a8f5ae61e294044f0a" alt="蛋糕题目"></p>
+<p>现给定一个重量为 n 的蛋糕，问小力应该如何切分蛋糕，达到最高的蛋糕总售价。设重量为 n 蛋糕的售价为 p(n) ，重量为 n 蛋糕切分后的最高总售价为 f(n) 。</p>
+<p>本题也能使用「暴力递归」→「记忆化递归」→「动态规划」三种方法解决。</p>
+<h3 id="方法一：暴力递归-1"><a href="#方法一：暴力递归-1" class="headerlink" title="方法一：暴力递归"></a>方法一：暴力递归</h3><p>暴力递归解法的代码如下，其时间复杂度为指数级 O(2^n)。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入蛋糕价格列表 priceList ，求重量为 n 蛋糕的最高售价</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxCakePrice</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt; priceList)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> priceList[n]; <span class="comment">// 蛋糕重量 &lt;= 1 时直接返回</span></span><br><span class="line">    <span class="type">int</span> f_n = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++)      <span class="comment">// 从 n 种组合种选择最高售价的组合作为 f(n)</span></span><br><span class="line">        f_n = <span class="built_in">max</span>(f_n, <span class="built_in">maxCakePrice</span>(i, priceList) + priceList[n - i]);</span><br><span class="line">    <span class="keyword">return</span> f_n;                      <span class="comment">// 返回 f(n)</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>下图中：f(4)&#x3D;&gt; 保留4剩下0进行切分；保留3剩下1进行切分；保留2剩下2进行切分；保留1剩下3进行切分&#x3D;&gt;包含了所有情况。</strong><br><img src="https://note.youdao.com/yws/api/personal/file/WEBab50a2ccd85424debf65cc9ef49c3b18?method=download&shareKey=05ce5b02cc369fb38818b8c2c77131fb" alt="暴力递归"></p>
+<h3 id="方法二：记忆化递归-1"><a href="#方法二：记忆化递归-1" class="headerlink" title="方法二：记忆化递归"></a>方法二：记忆化递归</h3><p>观察发现，递归树中存在大量重叠子问题，可通过记忆化处理避免重复计算。记忆化递归的算法的时间复杂度为 O(n^2) ，包括：</p>
+<ul>
+<li>f(2) 至 f(n) 共 n - 1 个待计算子问题，使用 O(n) 时间；</li>
+<li>计算某 f(i) 需遍历 i - 1 种子问题组合，使用 O(n) 时间；</li>
+</ul>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入蛋糕价格列表 priceList ，求重量为 n 蛋糕的最高售价</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxCakePrice</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt; priceList, vector&lt;<span class="type">int</span>&gt; &amp;dp)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> priceList[n]; <span class="comment">// 蛋糕重量 &lt;= 1 时直接返回</span></span><br><span class="line">    <span class="type">int</span> f_n = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; n; i++) &#123;    <span class="comment">// 从 n 种组合中选择最高售价的组合作为 f(n)</span></span><br><span class="line">        <span class="type">int</span> f_i = dp[i] != <span class="number">0</span> ? dp[i] : <span class="built_in">maxCakePrice</span>(i, priceList, dp);</span><br><span class="line">        f_n = <span class="built_in">max</span>(f_n, f_i + priceList[n - i]);</span><br><span class="line">    &#125;</span><br><span class="line">    dp[n] = f_n;                     <span class="comment">// 记录 f(n) 至 dp 数组</span></span><br><span class="line">    <span class="keyword">return</span> f_n;                      <span class="comment">// 返回 f(n)</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxCakePriceMemorized</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt; priceList)</span> </span>&#123;</span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">maxCakePrice</span>(n, priceList, dp);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB75de7a21b6a747e9e43401c86dba0c50?method=download&shareKey=f33be45b766c140f2e6b0ac36fe05122" alt="记忆化递归"></p>
+<h3>
+<font color=red><b> 方法三：动态规划</b></font>
+</h3>
+
+<p>相较于记忆化递归的<strong>从顶至底</strong>方法，易得动态规划的<strong>从底至顶</strong>方法，代码如下所示。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 输入蛋糕价格列表 priceList ，求重量为 n 蛋糕的最高售价</span></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">maxCakePrice</span><span class="params">(<span class="type">int</span> n, vector&lt;<span class="type">int</span>&gt; priceList)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> priceList[n];  <span class="comment">// 蛋糕重量 &lt;= 1 时直接返回</span></span><br><span class="line">    <span class="function">vector&lt;<span class="type">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;         <span class="comment">// 初始化 dp 列表</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> j = <span class="number">1</span>; j &lt;= n; j++) &#123;    <span class="comment">// 按顺序计算 f(1), f(2), ..., f(n)</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; j; i++)   <span class="comment">// 从 j 种组合种选择最高售价的组合作为 f(j)</span></span><br><span class="line">            dp[j] = <span class="built_in">max</span>(dp[j], dp[i] + priceList[j - i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[n];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如下图所示，为动态规划求解 f(4) 的迭代流程，其是**转移方程f(n)&#x3D;max 0≤i&lt;n (f(i)+p(n−i))**的体现。</p>
+<p><img src="https://note.youdao.com/yws/api/personal/file/WEB116cbc83edd1b51897c8147402914281?method=download&shareKey=ab60f87e018590d48ea097f6ad1a13e0" alt="动态规划"></p>
+<h3 id="小结-1"><a href="#小结-1" class="headerlink" title="小结"></a>小结</h3><p>本题同时包含「重叠子问题」和「最优子结构」，为动态规划的典型问题。动态规划通过填表避免了重复计算问题，并通过状态转移方程、初始状态实现对问题的迭代求解。</p>
+<p>普遍来看，求最值 的问题一般都具有「重叠子问题」和「最优子结构」特点，因此此类问题往往适合用动态规划解决。</p>
+<h1 id="4-动态规划的解题思路"><a href="#4-动态规划的解题思路" class="headerlink" title="4.动态规划的解题思路"></a>4.动态规划的解题思路</h1><h2 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h2><p>动态规划最核心的思想，就在于拆分子问题，记住过往，减少重复计算。 并且动态规划一般都是<strong>自底向上</strong>的.</p>
+<h2 id="解题框架"><a href="#解题框架" class="headerlink" title="解题框架"></a>解题框架</h2><p>若确定给定问题具有重叠子问题和最优子结构，那么就可以使用动态规划求解。总体上看，求解可分为四步：</p>
+<ol>
+<li>状态定义： 构建问题最优解模型，包括问题最优解的定义、有哪些计算解的自变量；</li>
+<li>初始状态： 确定基础子问题的解（即已知解），原问题和子问题的解都是以基础子问题的解为起始点，在迭代计算中得到的；</li>
+<li>转移方程： 确定原问题的解与子问题的解之间的关系是什么，以及使用何种选择规则从子问题最优解组合中选出原问题最优解；</li>
+<li>返回值： 确定应返回的问题的解是什么，即动态规划在何处停止迭代；</li>
+</ol>
+<p>完成以上步骤后，便容易写出对应的解题代码。</p>
+<h3 id="示例：斐波那契数列"><a href="#示例：斐波那契数列" class="headerlink" title="示例：斐波那契数列"></a>示例：斐波那契数列</h3><ul>
+<li><p>状态定义：一维 dp 列表，设第 ii 个斐波那契数为 dp[i] ；</p>
+</li>
+<li><p>初始状态：已知第 0 , 1 个斐波那契数分别为 dp[0]&#x3D;0 , dp[1]&#x3D;1 ；</p>
+</li>
+<li><p>转移方程：后一个数字等于前两个数字之和，即 dp[i]&#x3D;dp[i−1]+dp[i−2]</p>
+</li>
+<li><p>返回值：需求取的第 n 个斐波那契数 dp[n] ；</p>
+</li>
+</ul>
+<h3 id="示例：蛋糕最高售价"><a href="#示例：蛋糕最高售价" class="headerlink" title="示例：蛋糕最高售价"></a>示例：蛋糕最高售价</h3><ul>
+<li><p>状态定义：一维 dp 列表，设重量为 i 蛋糕的售价为 p(i) ，重量为 i 蛋糕切分后的最高售价为 dp[i] ；</p>
+</li>
+<li><p>初始状态：已知重量为 0 蛋糕的最高售价为 0 ，重量为 1 的蛋糕最高售价为 p(1) ；</p>
+</li>
+<li><p>转移方程：dp[n] 为 n 种切分组合中的最高售价组合，即 dp[n]&#x3D; max 0≤i&lt;n (dp[i]+p(n−i))</p>
+</li>
+<li><p>返回值：需求取的重量为 n 的蛋糕最高售价 dp[n] ；</p>
+</li>
+</ul>
+<h3 id="动态规划相关例题"><a href="#动态规划相关例题" class="headerlink" title="动态规划相关例题"></a>动态规划相关例题</h3><p><img src="https://note.youdao.com/yws/api/personal/file/WEB36e7f031880e57a49c83cb54779eef43?method=download&shareKey=3ef1c11479127d9540b3becdcc275894" alt="动态规划例题"></p>
+<p>来源:<a target="_blank" rel="noopener" href="https://leetcode.cn/circle/article/krb5lH/">https://leetcode.cn/circle/article/krb5lH/</a><br>     <a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/365698607">https://zhuanlan.zhihu.com/p/365698607</a></p>
+
+          
+        
+
+      <!-- 
         <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><p>这几天刷Leetcode时初步接触到动态规划的题，被这解法震撼到了。用其他解法会很复杂的题，用动态规划可以很简洁的就实现。<br>比如：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/">https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/</a></p>
 <span id="more"></span>
 
@@ -312,7 +428,7 @@
           </div>
           </a>
         </div>
-      
+       -->
     </div>
     <div class="article-info article-info-index">
       
@@ -525,6 +641,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">库开发</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>

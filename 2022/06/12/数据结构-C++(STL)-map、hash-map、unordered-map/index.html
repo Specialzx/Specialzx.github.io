@@ -67,7 +67,11 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+				<li><a href="/categories">分类</a></li>
+	        
+				<li><a href="/archives/index.html">归档</a></li>
+	        
+				<li><a href="/tags">标签</a></li>
 	        
 			</ul>
 		</nav>
@@ -125,6 +129,10 @@
 			
 				
 			
+				
+			
+				
+			
 			
 			
 			<nav class="header-nav">
@@ -144,12 +152,16 @@
 			</nav>
 
 			<nav class="header-menu js-header-menu">
-				<ul style="width: 50%">
+				<ul style="width: 70%">
 				
 				
-					<li style="width: 50%"><a href="/">主页</a></li>
+					<li style="width: 25%"><a href="/">主页</a></li>
 		        
-					<li style="width: 50%"><a href="/tags/%E9%9A%8F%E7%AC%94/">随笔</a></li>
+					<li style="width: 25%"><a href="/categories">分类</a></li>
+		        
+					<li style="width: 25%"><a href="/archives/index.html">归档</a></li>
+		        
+					<li style="width: 25%"><a href="/tags">标签</a></li>
 		        
 				</ul>
 			</nav>
@@ -184,6 +196,64 @@
     
     <div class="article-entry" itemprop="articleBody">
       
+        
+          
+            <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><hr>
+<p>学完了C++STL的常用容器后一直有个疑惑，就是数据结构中的哈希结构为什么没有对应的实现，今天在刷题的时候遇到一道可以用哈希表解决的题目。因此查询了解了map、hash_map、unordered_map留以记录。</p>
+<p>STL 标准库中有序列式容器，包括 string、vector、deque、list、stack、queue 容器；关联式容器，包括 map、multimap、set 以及 multiset 这 4 种容器；C++ 11 标准库又引入了一类容器，即无序关联式容器(又称哈希容器)，包括 unordered_map、unordered_multimap、unordered_set 以及 unordered_multiset。。</p>
+<span id="more"></span>
+
+<h1 id="2-三者的区别"><a href="#2-三者的区别" class="headerlink" title="2.三者的区别"></a>2.三者的区别</h1><hr>
+<p>map是STL中的标准容器，其底层是用红黑树实现的，空间复杂度为O(n)，是随着节点的增加才增加，而查找的时间时间复杂度则固定是O(log(n))了。因为红黑树本来就是一种二叉搜索树，所以从begin()遍历到end()得到的key值是有序的，这也是map的一个特点。</p>
+<p>hash_map属于非标准容器,是SGI实现，而unordered_map是C++11标准中新增的,属于标准容器。它们都是用hash table实现的，使用开链法解决冲突问题。但是由于用的是hash表，其特性已经决定使用的空间基本到会比实际需要的空间大。保存的数据不是有序的，不能像map那样子通过遍历得到一个有序的结果。查找的时间复杂度可以达到O(1)，基本上都是比map快的。在unordered_map中，链表节点用的是称为bucket（桶）的数据结构。</p>
+<p>虽然大多数情况下hash table实现的map都会比红黑树实现的map查找快，但不是绝对的，因为冲突过多的话，可能耗费时间比map还要多。所以对于前者基本上都会有个rehash的操作，而由于rehash的处理不一样，也导致了hash_map和unordered_map的性能有一些差别，unordered_map性能比hash_map要好很多。</p>
+<h1 id="3-使用的场景"><a href="#3-使用的场景" class="headerlink" title="3.使用的场景"></a>3.使用的场景</h1><hr>
+<p>使用场景基本上就是用各自的特性决定了。</p>
+<p>map一般就是用在数据量小于1000或者对内存使用要求比较高的情况下。因为hash table需要申请的空间比较大，而红黑树则是新增一个节点就申请一个节点的空间。</p>
+<p>如果数据量大的话并且需要频繁查找的话，就可以使用hash table实现的unordered_map了。这个时候内存已经不是主要的问题所在，而是查找时间了，这种情况下hash table的查找速度是常数而红黑树是O(log(n))，对于后者1024个数据最坏情况下要10次比较，在频繁查找的情况下这种时间耗费是很大的。而如果对内存大小比较敏感或者数据存储要求有序的话，则可以用 map 容器，并且稳定性是map比较好。</p>
+<p>总结下来就是三个权衡点：<u>查找速度、数据量、内存使用</u>。</p>
+<h1 id="4-hash-map与unordered-map的性能区别-简单阐述"><a href="#4-hash-map与unordered-map的性能区别-简单阐述" class="headerlink" title="4.hash_map与unordered_map的性能区别(简单阐述)"></a>4.hash_map与unordered_map的性能区别(简单阐述)</h1><hr>
+<p>hash_map和unordered_map底层都是hash table实现的。对于hash table来说，随着操作的不断执行，hash table保存的键值对会逐渐地增多或者减少， 为了让hash table的负载因子（load factor）维持在一个合理的范围之内， 当哈希表保存的键值对数量太多或者太少时， 程序需要对哈希表的大小进行相应的扩展或者收缩。</p>
+<p>扩展和收缩哈希表的工作可以通过执行 rehash （重新散列）操作来完成。unordered_map性能比hash_map好，原因之一就是两者rehash的处理是不一样的。unordered_map在插入前都会调用 <strong>_M_rehash_policy._M_need_rehash</strong> 都会判断是否需要rehash，如果需要则会调用_M_rehash进行操作。hash_map在插入的时候只要判断当前节点大小大于bucket数目，就会进行rehash的操作。hash_map的rehash简单粗暴，直接就是更新bucket数目为需要的数目就行了，而不会像unordered_map那样子进行数量的优化。</p>
+<h1 id="5-关于unordered-map的说明与使用"><a href="#5-关于unordered-map的说明与使用" class="headerlink" title="5.关于unordered_map的说明与使用"></a>5.关于unordered_map的说明与使用</h1><h2 id="①说明"><a href="#①说明" class="headerlink" title="①说明"></a>①说明</h2><ul>
+<li><p>unordered_map 是一种关联容器，用于存储由关键值 (Key Value，以下称为Key 值) 和映射值 (Mapped Value，以下称为映射值) 组成的元素，并且允许根据其 Key 值快速检索各个元素。</p>
+</li>
+<li><p>在 unordered_map 容器中，Key 值通常用来唯一标识元素，映射值是与该 Key 值关联内容的对象。Key 值与映射值的类型可能不同。</p>
+</li>
+<li><p>在 unordered_map 内部，元素没有按照其 Key 值与映射值的任何顺序进行排序 ，而是根据它们的 Hash 值组织成桶，允许它们通过其 Key 值直接快速访问单个元素（通常具有常数等级的平均时间复杂度）。</p>
+</li>
+<li><p>unordered_map 容器与 map 容器相比，通过 Key 值访问各个元素的速度更快，然而通过其元素子集进行范围迭代的效率通常较低。</p>
+</li>
+<li><p>unordered_map 实现了直接访问操作符 (operator[])，它允许使用 Key 值作为输入参数，直接访问映射值。</p>
+</li>
+<li><p>容器中的迭代器至少是前向迭代器。</p>
+</li>
+</ul>
+<h2 id="②用法"><a href="#②用法" class="headerlink" title="②用法"></a>②用法</h2><ol>
+<li>创建unordered_map 容器</li>
+</ol>
+<ul>
+<li><p>创建 unordered_map 容器的同时，可以完成初始化操作。如：std::unordered_map&lt;std::string, std::string&gt; umap{<br>  {“Python教程”,”<a target="_blank" rel="noopener" href="http://c.biancheng.net/python/&quot;%7D">http://c.biancheng.net/python/&quot;}</a>,<br>  {“Java教程”,”<a target="_blank" rel="noopener" href="http://c.biancheng.net/java/&quot;%7D">http://c.biancheng.net/java/&quot;}</a>,<br>  {“Linux教程”,”<a target="_blank" rel="noopener" href="http://c.biancheng.net/linux/&quot;%7D">http://c.biancheng.net/linux/&quot;}</a> };</p>
+</li>
+<li><p>拷贝构造函数std::unordered_map&lt;std::string, std::string&gt; umap2(umap);</p>
+</li>
+<li><p>std::unordered_map&lt;std::string, std::string&gt; umap2(++umap.begin(),umap.end());</p>
+</li>
+</ul>
+<ol start="2">
+<li>成员方法<br><img src="https://note.youdao.com/yws/api/personal/file/WEB738199988f116611e18ec255aae23ca3?method=download&shareKey=8cf3f8566d27e3e90d8481b0b680c3cd" alt="undered_map类成员函数"></li>
+</ol>
+<br>
+<br>
+<br>
+
+<p>文章部分转载于：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014209688/article/details/95366594">https://blog.csdn.net/u014209688/article/details/95366594</a>
+               </p>
+
+          
+        
+
+      <!-- 
         <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><hr>
 <p>学完了C++STL的常用容器后一直有个疑惑，就是数据结构中的哈希结构为什么没有对应的实现，今天在刷题的时候遇到一道可以用哈希表解决的题目。因此查询了解了map、hash_map、unordered_map留以记录。</p>
 <p>STL 标准库中有序列式容器，包括 string、vector、deque、list、stack、queue 容器；关联式容器，包括 map、multimap、set 以及 multiset 这 4 种容器；C++ 11 标准库又引入了一类容器，即无序关联式容器(又称哈希容器)，包括 unordered_map、unordered_multimap、unordered_set 以及 unordered_multiset。。</p>
@@ -259,7 +329,7 @@
           </div>
           </a>
         </div>
-      
+       -->
     </div>
     <div class="article-info article-info-index">
       
@@ -468,6 +538,14 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">库开发</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
