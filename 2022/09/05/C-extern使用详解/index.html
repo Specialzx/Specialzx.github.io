@@ -17,7 +17,7 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB85ae7c72f0dcdfbdd5b630d6b22f44c5?method=download&shareKey=547ce6bb4769cb06335cd087e07f4339">
 <meta property="article:published_time" content="2022-09-05T01:29:11.000Z">
-<meta property="article:modified_time" content="2022-09-05T13:28:18.708Z">
+<meta property="article:modified_time" content="2022-09-05T15:17:01.859Z">
 <meta property="article:author" content="By ZX">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="头文件">
@@ -247,7 +247,7 @@
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42580901/article/details/109750948">https://blog.csdn.net/qq_42580901/article/details/109750948</a> </p>
 <h2 id="1-5-extern的作用"><a href="#1-5-extern的作用" class="headerlink" title="1.5 extern的作用"></a>1.5 extern的作用</h2><p>extern有两个作用，第一个,当它与”C”一起连用时，如: extern “C” void fun(int a, int b); 则告诉编译器在编译fun这个函数名时按着C的规则去翻译相应的函数名而不是C++的， C++的规则在翻译这个函数名时会把fun这个名字变得面目全非。<strong>因为C++支持函数的重载</strong>！</p>
 <p> 当extern不与”C”在一起修饰变量或函数时，如在头文件中: extern int g_Int; 它的作用就是声明函数或全局变量的作用范围的关键字，其声明的函数和变量可以在本模块或其他模块中使用，记住它是一个声明不是定义!也就是说B模块(编译单元)要是引用模块(编译单元)A中定义的全局变量或函数时，它只要包含A模块的头文件即可, 在编译阶段，模块B虽然找不到该函数或变量，但它不会报错，它会在连接时从模块A生成的目标代码中找到此函数。</p>
-<h1 id="2-几种全局变量-x2F-常量使用"><a href="#2-几种全局变量-x2F-常量使用" class="headerlink" title="2.几种全局变量&#x2F;常量使用"></a>2.几种全局变量&#x2F;常量使用</h1><h1 id="2-1-用extern修饰的全局变量"><a href="#2-1-用extern修饰的全局变量" class="headerlink" title="2.1 用extern修饰的全局变量"></a>2.1 用extern修饰的全局变量</h1><p>以上已经说了extern的作用，下面我们来举个例子,如: </p>
+<h1 id="2-几种全局变量-x2F-常量使用"><a href="#2-几种全局变量-x2F-常量使用" class="headerlink" title="2.几种全局变量&#x2F;常量使用"></a>2.几种全局变量&#x2F;常量使用</h1><h2 id="2-1-用extern修饰的全局变量"><a href="#2-1-用extern修饰的全局变量" class="headerlink" title="2.1 用extern修饰的全局变量"></a>2.1 用extern修饰的全局变量</h2><p>以上已经说了extern的作用，下面我们来举个例子,如: </p>
 <p>在test1.h中有下列声明: </p>
 <pre><code>#ifndef TEST1H
  #define TEST1H
@@ -284,7 +284,7 @@ void fun2()
  &#125;
 </code></pre>
 <p>这个时候编译器就知道g_str是引自于外部的一个编译模块了，不会在本模块中再重复定义一个出来，但是不建议这样做，因为无法在 test2.cpp中使用#include “test1.h”, 那么test1.h中声明的其他函数你也无法使用了，除非也依次用都用extern修饰，这样的话你光声明的函数就要一大串，而且头文件的作用就是要给外部提供接口使用的，所以 请记住， 只在头文件中做声明，真理总是这么简单。</p>
-<h1 id="2-2-用static修饰的全局变量-—-gt-静态全局变量"><a href="#2-2-用static修饰的全局变量-—-gt-静态全局变量" class="headerlink" title="2.2 用static修饰的全局变量 —&gt; 静态全局变量"></a>2.2 用static修饰的全局变量 —&gt; 静态全局变量</h1><p>首先，<strong>extern和static不能同时修饰一个变量</strong>，静态变量的声明和定义同时进行；静态变量的作用域是本身的编译单元，其他编译单元则看不到它。</p>
+<h2 id="2-2-用static修饰的全局变量-—-gt-静态全局变量"><a href="#2-2-用static修饰的全局变量-—-gt-静态全局变量" class="headerlink" title="2.2 用static修饰的全局变量 —&gt; 静态全局变量"></a>2.2 用static修饰的全局变量 —&gt; 静态全局变量</h2><p>首先，<strong>extern和static不能同时修饰一个变量</strong>，静态变量的声明和定义同时进行；静态变量的作用域是本身的编译单元，其他编译单元则看不到它。</p>
 <p>test1.h:<br>     #ifndef TEST1H<br>     #define TEST1H<br>     static char g_str[] &#x3D; “123456”;<br>     void fun1();<br>     #endif</p>
 <p>test1.cpp:<br>     #include “test1.h”</p>
 <pre><code> void fun1()
@@ -301,7 +301,7 @@ void fun2()
 </code></pre>
 <p>以上两个编译单元可以连接成功, 当你打开test1.obj时，你可以在它里面找到字符串”123456”, 同时你也可以在test2.obj中找到它们，它们之所以可以连接成功而没有报重复定义的错误是因为虽然它们有相同的内容，但是存储的物理地址并不一样， 就像是两个不同变量赋了相同的值一样，而这两个变量分别作用于它们各自的编译单元。</p>
 <p>所以一般定义static全局变量时，都把它放在源文件中而不是头文件，这样就不会给其他模块造成不必要的信息污染。</p>
-<h1 id="2-3-const修饰的全局常量"><a href="#2-3-const修饰的全局常量" class="headerlink" title="2.3 const修饰的全局常量"></a>2.3 const修饰的全局常量</h1><p>const修饰的全局常量用途很广，比如软件中的错误信息字符串都是用全局常量来定义的。</p>
+<h2 id="2-3-const修饰的全局常量"><a href="#2-3-const修饰的全局常量" class="headerlink" title="2.3 const修饰的全局常量"></a>2.3 const修饰的全局常量</h2><p>const修饰的全局常量用途很广，比如软件中的错误信息字符串都是用全局常量来定义的。</p>
 <p>（1） <font color=blue>const修饰的全局常量定义在头文件中</font></p>
 <pre><code>        例如：在test1.h中有定义全局常量
 
@@ -457,7 +457,7 @@ int func()
 <p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42580901/article/details/109750948">https://blog.csdn.net/qq_42580901/article/details/109750948</a> </p>
 <h2 id="1-5-extern的作用"><a href="#1-5-extern的作用" class="headerlink" title="1.5 extern的作用"></a>1.5 extern的作用</h2><p>extern有两个作用，第一个,当它与”C”一起连用时，如: extern “C” void fun(int a, int b); 则告诉编译器在编译fun这个函数名时按着C的规则去翻译相应的函数名而不是C++的， C++的规则在翻译这个函数名时会把fun这个名字变得面目全非。<strong>因为C++支持函数的重载</strong>！</p>
 <p> 当extern不与”C”在一起修饰变量或函数时，如在头文件中: extern int g_Int; 它的作用就是声明函数或全局变量的作用范围的关键字，其声明的函数和变量可以在本模块或其他模块中使用，记住它是一个声明不是定义!也就是说B模块(编译单元)要是引用模块(编译单元)A中定义的全局变量或函数时，它只要包含A模块的头文件即可, 在编译阶段，模块B虽然找不到该函数或变量，但它不会报错，它会在连接时从模块A生成的目标代码中找到此函数。</p>
-<h1 id="2-几种全局变量-x2F-常量使用"><a href="#2-几种全局变量-x2F-常量使用" class="headerlink" title="2.几种全局变量&#x2F;常量使用"></a>2.几种全局变量&#x2F;常量使用</h1><h1 id="2-1-用extern修饰的全局变量"><a href="#2-1-用extern修饰的全局变量" class="headerlink" title="2.1 用extern修饰的全局变量"></a>2.1 用extern修饰的全局变量</h1><p>以上已经说了extern的作用，下面我们来举个例子,如: </p>
+<h1 id="2-几种全局变量-x2F-常量使用"><a href="#2-几种全局变量-x2F-常量使用" class="headerlink" title="2.几种全局变量&#x2F;常量使用"></a>2.几种全局变量&#x2F;常量使用</h1><h2 id="2-1-用extern修饰的全局变量"><a href="#2-1-用extern修饰的全局变量" class="headerlink" title="2.1 用extern修饰的全局变量"></a>2.1 用extern修饰的全局变量</h2><p>以上已经说了extern的作用，下面我们来举个例子,如: </p>
 <p>在test1.h中有下列声明: </p>
 <pre><code>#ifndef TEST1H
  #define TEST1H
@@ -494,7 +494,7 @@ void fun2()
  &#125;
 </code></pre>
 <p>这个时候编译器就知道g_str是引自于外部的一个编译模块了，不会在本模块中再重复定义一个出来，但是不建议这样做，因为无法在 test2.cpp中使用#include “test1.h”, 那么test1.h中声明的其他函数你也无法使用了，除非也依次用都用extern修饰，这样的话你光声明的函数就要一大串，而且头文件的作用就是要给外部提供接口使用的，所以 请记住， 只在头文件中做声明，真理总是这么简单。</p>
-<h1 id="2-2-用static修饰的全局变量-—-gt-静态全局变量"><a href="#2-2-用static修饰的全局变量-—-gt-静态全局变量" class="headerlink" title="2.2 用static修饰的全局变量 —&gt; 静态全局变量"></a>2.2 用static修饰的全局变量 —&gt; 静态全局变量</h1><p>首先，<strong>extern和static不能同时修饰一个变量</strong>，静态变量的声明和定义同时进行；静态变量的作用域是本身的编译单元，其他编译单元则看不到它。</p>
+<h2 id="2-2-用static修饰的全局变量-—-gt-静态全局变量"><a href="#2-2-用static修饰的全局变量-—-gt-静态全局变量" class="headerlink" title="2.2 用static修饰的全局变量 —&gt; 静态全局变量"></a>2.2 用static修饰的全局变量 —&gt; 静态全局变量</h2><p>首先，<strong>extern和static不能同时修饰一个变量</strong>，静态变量的声明和定义同时进行；静态变量的作用域是本身的编译单元，其他编译单元则看不到它。</p>
 <p>test1.h:<br>     #ifndef TEST1H<br>     #define TEST1H<br>     static char g_str[] &#x3D; “123456”;<br>     void fun1();<br>     #endif</p>
 <p>test1.cpp:<br>     #include “test1.h”</p>
 <pre><code> void fun1()
@@ -511,7 +511,7 @@ void fun2()
 </code></pre>
 <p>以上两个编译单元可以连接成功, 当你打开test1.obj时，你可以在它里面找到字符串”123456”, 同时你也可以在test2.obj中找到它们，它们之所以可以连接成功而没有报重复定义的错误是因为虽然它们有相同的内容，但是存储的物理地址并不一样， 就像是两个不同变量赋了相同的值一样，而这两个变量分别作用于它们各自的编译单元。</p>
 <p>所以一般定义static全局变量时，都把它放在源文件中而不是头文件，这样就不会给其他模块造成不必要的信息污染。</p>
-<h1 id="2-3-const修饰的全局常量"><a href="#2-3-const修饰的全局常量" class="headerlink" title="2.3 const修饰的全局常量"></a>2.3 const修饰的全局常量</h1><p>const修饰的全局常量用途很广，比如软件中的错误信息字符串都是用全局常量来定义的。</p>
+<h2 id="2-3-const修饰的全局常量"><a href="#2-3-const修饰的全局常量" class="headerlink" title="2.3 const修饰的全局常量"></a>2.3 const修饰的全局常量</h2><p>const修饰的全局常量用途很广，比如软件中的错误信息字符串都是用全局常量来定义的。</p>
 <p>（1） <font color=blue>const修饰的全局常量定义在头文件中</font></p>
 <pre><code>        例如：在test1.h中有定义全局常量
 
@@ -776,7 +776,7 @@ int func()
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">1.基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E7%BC%96%E8%AF%91%E9%A2%84%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 编译预处理相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E7%BC%96%E8%AF%91%E5%8D%95%E5%85%83-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 编译单元(模块)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%AE%9A%E4%B9%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 声明与定义的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E3%80%81%E5%A4%96%E9%83%A8%E5%8F%98%E9%87%8F%E3%80%81%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80-x2F-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 全局变量、外部变量、静态全局&#x2F;局部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-extern%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 extern的作用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%87%A0%E7%A7%8D%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-x2F-%E5%B8%B8%E9%87%8F%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2.几种全局变量&#x2F;常量使用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-1-%E7%94%A8extern%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">2.1 用extern修饰的全局变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-2-%E7%94%A8static%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-%E2%80%94-gt-%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">4.</span> <span class="toc-text">2.2 用static修饰的全局变量 —&gt; 静态全局变量</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-3-const%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%85%A8%E5%B1%80%E5%B8%B8%E9%87%8F"><span class="toc-number">5.</span> <span class="toc-text">2.3 const修饰的全局常量</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">5.1.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E9%97%AE%E9%A2%98"><span class="toc-number">6.</span> <span class="toc-text">3.典型应用问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E9%97%AE%E9%A2%98%E4%B8%80"><span class="toc-number">6.1.</span> <span class="toc-text">3.1 问题一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E9%97%AE%E9%A2%98%E4%BA%8C"><span class="toc-number">6.2.</span> <span class="toc-text">3.2 问题二</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%87%AA%E5%BB%BA%E7%A4%BA%E4%BE%8B"><span class="toc-number">7.</span> <span class="toc-text">4.自建示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E6%83%85%E5%86%B5%E4%B8%80"><span class="toc-number">7.1.</span> <span class="toc-text">4.1 情况一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%83%85%E5%86%B5%E4%BA%8C"><span class="toc-number">7.2.</span> <span class="toc-text">4.2 情况二</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.</span> <span class="toc-text">1.基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E7%BC%96%E8%AF%91%E9%A2%84%E5%A4%84%E7%90%86%E7%9B%B8%E5%85%B3"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 编译预处理相关</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E7%BC%96%E8%AF%91%E5%8D%95%E5%85%83-%E6%A8%A1%E5%9D%97"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 编译单元(模块)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%A3%B0%E6%98%8E%E4%B8%8E%E5%AE%9A%E4%B9%89%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 声明与定义的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E3%80%81%E5%A4%96%E9%83%A8%E5%8F%98%E9%87%8F%E3%80%81%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80-x2F-%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 全局变量、外部变量、静态全局&#x2F;局部变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-5-extern%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.5.</span> <span class="toc-text">1.5 extern的作用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2-%E5%87%A0%E7%A7%8D%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-x2F-%E5%B8%B8%E9%87%8F%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2.几种全局变量&#x2F;常量使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E7%94%A8extern%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 用extern修饰的全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E7%94%A8static%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F-%E2%80%94-gt-%E9%9D%99%E6%80%81%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 用static修饰的全局变量 —&gt; 静态全局变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-const%E4%BF%AE%E9%A5%B0%E7%9A%84%E5%85%A8%E5%B1%80%E5%B8%B8%E9%87%8F"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 const修饰的全局常量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">2.4.</span> <span class="toc-text">总结：</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3-%E5%85%B8%E5%9E%8B%E5%BA%94%E7%94%A8%E9%97%AE%E9%A2%98"><span class="toc-number">3.</span> <span class="toc-text">3.典型应用问题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E9%97%AE%E9%A2%98%E4%B8%80"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 问题一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E9%97%AE%E9%A2%98%E4%BA%8C"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 问题二</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4-%E8%87%AA%E5%BB%BA%E7%A4%BA%E4%BE%8B"><span class="toc-number">4.</span> <span class="toc-text">4.自建示例</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#4-1-%E6%83%85%E5%86%B5%E4%B8%80"><span class="toc-number">4.1.</span> <span class="toc-text">4.1 情况一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-2-%E6%83%85%E5%86%B5%E4%BA%8C"><span class="toc-number">4.2.</span> <span class="toc-text">4.2 情况二</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -912,15 +912,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">深度优先搜索</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">广度优先搜索</a>
+                <a href="javascript:void(0)" class="js-tag color4">并查集</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -932,7 +924,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">并查集</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">深度优先搜索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">广度优先搜索</a>
               </li>
              
               <li class="article-tag-list-item">
