@@ -8,16 +8,16 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>C:extern使用详解 | ZXblog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.基本概念先讨论几个基本概念。 1.1 编译预处理相关">
+  <meta name="description" content="由extern引发的一系列基本概念和问题。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="C:extern使用详解">
 <meta property="og:url" content="http://example.com/2022/09/05/C-extern%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/index.html">
 <meta property="og:site_name" content="ZXblog">
-<meta property="og:description" content="1.基本概念先讨论几个基本概念。 1.1 编译预处理相关">
+<meta property="og:description" content="由extern引发的一系列基本概念和问题。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB85ae7c72f0dcdfbdd5b630d6b22f44c5?method=download&shareKey=547ce6bb4769cb06335cd087e07f4339">
 <meta property="article:published_time" content="2022-09-05T01:29:11.000Z">
-<meta property="article:modified_time" content="2022-09-05T12:53:15.120Z">
+<meta property="article:modified_time" content="2022-09-05T13:25:50.924Z">
 <meta property="article:author" content="By ZX">
 <meta property="article:tag" content="C&#x2F;C++">
 <meta property="article:tag" content="头文件">
@@ -209,8 +209,6 @@
 <h2 id="1-1-编译预处理相关"><a href="#1-1-编译预处理相关" class="headerlink" title="1.1 编译预处理相关"></a>1.1 编译预处理相关</h2><div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB85ae7c72f0dcdfbdd5b630d6b22f44c5?method=download&shareKey=547ce6bb4769cb06335cd087e07f4339">
 </div>
-
-<span id="more"></span>
 
 <p>源程序的中的编译预处理命令一律以#开头，回车键结束，每条命令占一行，并且通常放在源程序的开始部分。</p>
 <p>编译预处理的作用是将源程序文件中的预处理命令进行处理，生成一个中间文件，编译系统再对此中间文件进行编译并生成目标代码，最后生成的目标代码中不含有预处理命令；<font color=red>c++提供的预处理功能主要有宏定义(#define,#undef)、文件包含(#include)、条件编译(#ifdef,#ifndef,#else,#endif)</font>。</p>
@@ -419,8 +417,6 @@ int func()
 <h2 id="1-1-编译预处理相关"><a href="#1-1-编译预处理相关" class="headerlink" title="1.1 编译预处理相关"></a>1.1 编译预处理相关</h2><div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB85ae7c72f0dcdfbdd5b630d6b22f44c5?method=download&shareKey=547ce6bb4769cb06335cd087e07f4339">
 </div>
-
-<span id="more"></span>
 
 <p>源程序的中的编译预处理命令一律以#开头，回车键结束，每条命令占一行，并且通常放在源程序的开始部分。</p>
 <p>编译预处理的作用是将源程序文件中的预处理命令进行处理，生成一个中间文件，编译系统再对此中间文件进行编译并生成目标代码，最后生成的目标代码中不含有预处理命令；<font color=red>c++提供的预处理功能主要有宏定义(#define,#undef)、文件包含(#include)、条件编译(#ifdef,#ifndef,#else,#endif)</font>。</p>
