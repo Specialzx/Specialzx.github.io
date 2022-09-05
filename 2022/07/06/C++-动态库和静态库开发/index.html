@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB52e9b976ebcf32d5cd2c33967d1232e2?method=download&shareKey=238f4b4d9a0d3333fa3c1b370f269af3">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB66da2972f37f9de2e0bf3b79faa4a9e9?method=download&shareKey=f5e0d79e90201095e13c0bd7ca910cac">
 <meta property="article:published_time" content="2022-07-06T15:14:29.000Z">
-<meta property="article:modified_time" content="2022-07-18T03:42:20.067Z">
+<meta property="article:modified_time" content="2022-09-05T15:32:08.047Z">
 <meta property="article:author" content="By ZX">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="库开发">
@@ -280,51 +280,29 @@
 </div>
 
 <p>但是以上还不够完善，需进一步：</p>
-<ol>
-<li>_declspec(dllexport)：<strong>声明导出函数</strong>，加了这一句就可以在Dependency Walker软件中查看导出接口。此时生成项目时，会多生成一个testdll.lib和testdll.exp文件</li>
-</ol>
+<p>1._declspec(dllexport)：<strong>声明导出函数</strong>，加了这一句就可以在Dependency Walker软件中查看导出接口。此时生成项目时，会多生成一个testdll.lib和testdll.exp文件</p>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEBf42db3fdeb1700963f913d6dbe6f25b5?method=download&shareKey=19aca40684064e857400c470696cae49" alt="修改建立1"></p>
-<ol start="2">
-<li>但是为了在大型项目中导出导入使用时更方便统一，可以<strong>选择</strong>再进一步修改如下：</li>
-</ol>
+<p>2.但是为了在大型项目中导出导入使用时更方便统一，可以<strong>选择</strong>再进一步修改如下：</p>
 <div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB0dd32ea0d2705ed39fd33889af16ad75?method=download&shareKey=f7f75ab7cb39646a248ce34af7b91ba4">
 </div>
 
 <p>此时还需要在testdll的”项目属性页-C&#x2F;C++-预处理器-预处理器定义”中添加一个预处理变量”_DLLAPI”，<strong>即为了使建立dll时使用export，使用dll时使用imporrt</strong>。</p>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEB2362c384d21cf3639bcbbd3b8abecba9?method=download&shareKey=b4230123f11ac123be26ed01f881ab2e" alt="建立设置"></p>
-<ol start="3">
-<li><p>存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(**原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号**)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。</li>
-</ol>
-<blockquote>
-<blockquote>
+<p>3.<p>存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(<strong>原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号</strong>)。 </p>   会产生的影响：此时如果使用<strong>显式调用</strong>，其中GetProcAddress()指令中就需要写全名称，如”?add@……”，比较麻烦。</p>
 <p>解决方法：</p>
-</blockquote>
+<blockquote>
+<p>1.把文件从.cpp改为.c使用C语言编译器编译即可；</p>
 </blockquote>
 <blockquote>
-<blockquote>
-<ol>
-<li>把文件从.cpp改为.c使用C语言编译器编译即可；</li>
-</ol>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<ol start="2">
-<li>在声明导出函数时，再加上extern “C”。并且在使用动态库，导入函数时也需要加上extern “C”。</li>
-</ol>
-</blockquote>
+<p>2.在声明导出函数时，再加上extern “C”。并且在使用动态库，导入函数时也需要加上extern “C”。</p>
 </blockquote>
 <div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB178438af8ea8c59349bee2205abc1025?method=download&shareKey=6e9c2470c12d481a41989e55f9bca89d">
 </div>
 
 <blockquote>
-<blockquote>
-<ol start="3">
-<li>微软还提供了另外一种方式：添加模块定义文件.def。此时在dll的头文件中就不需要extern “C” 和  _declspec(dllexport)了。但是使用动态库时依然需要。</li>
-</ol>
-</blockquote>
+<p>3.微软还提供了另外一种方式：添加模块定义文件.def。此时在dll的头文件中就不需要extern “C” 和  _declspec(dllexport)了。但是使用动态库时依然需要。</p>
 </blockquote>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEBc28524f08dae5bce2989ad755b529bb8?method=download&shareKey=66a559b2eacd860fd182f96fb7c7bdc1" alt="模块定义文件"></p>
 <h2 id="4-2-使用动态库"><a href="#4-2-使用动态库" class="headerlink" title="4.2 使用动态库"></a>4.2 使用动态库</h2><h3 id="方法一：（隐式调用动态库）-简单、推荐使用"><a href="#方法一：（隐式调用动态库）-简单、推荐使用" class="headerlink" title="方法一：（隐式调用动态库） 简单、推荐使用"></a>方法一：（隐式调用动态库） 简单、推荐使用</h3><ul>
@@ -450,51 +428,29 @@
 </div>
 
 <p>但是以上还不够完善，需进一步：</p>
-<ol>
-<li>_declspec(dllexport)：<strong>声明导出函数</strong>，加了这一句就可以在Dependency Walker软件中查看导出接口。此时生成项目时，会多生成一个testdll.lib和testdll.exp文件</li>
-</ol>
+<p>1._declspec(dllexport)：<strong>声明导出函数</strong>，加了这一句就可以在Dependency Walker软件中查看导出接口。此时生成项目时，会多生成一个testdll.lib和testdll.exp文件</p>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEBf42db3fdeb1700963f913d6dbe6f25b5?method=download&shareKey=19aca40684064e857400c470696cae49" alt="修改建立1"></p>
-<ol start="2">
-<li>但是为了在大型项目中导出导入使用时更方便统一，可以<strong>选择</strong>再进一步修改如下：</li>
-</ol>
+<p>2.但是为了在大型项目中导出导入使用时更方便统一，可以<strong>选择</strong>再进一步修改如下：</p>
 <div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB0dd32ea0d2705ed39fd33889af16ad75?method=download&shareKey=f7f75ab7cb39646a248ce34af7b91ba4">
 </div>
 
 <p>此时还需要在testdll的”项目属性页-C&#x2F;C++-预处理器-预处理器定义”中添加一个预处理变量”_DLLAPI”，<strong>即为了使建立dll时使用export，使用dll时使用imporrt</strong>。</p>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEB2362c384d21cf3639bcbbd3b8abecba9?method=download&shareKey=b4230123f11ac123be26ed01f881ab2e" alt="建立设置"></p>
-<ol start="3">
-<li><p>存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(**原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号**)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。</li>
-</ol>
-<blockquote>
-<blockquote>
+<p>3.<p>存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(<strong>原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号</strong>)。 </p>   会产生的影响：此时如果使用<strong>显式调用</strong>，其中GetProcAddress()指令中就需要写全名称，如”?add@……”，比较麻烦。</p>
 <p>解决方法：</p>
-</blockquote>
+<blockquote>
+<p>1.把文件从.cpp改为.c使用C语言编译器编译即可；</p>
 </blockquote>
 <blockquote>
-<blockquote>
-<ol>
-<li>把文件从.cpp改为.c使用C语言编译器编译即可；</li>
-</ol>
-</blockquote>
-</blockquote>
-<blockquote>
-<blockquote>
-<ol start="2">
-<li>在声明导出函数时，再加上extern “C”。并且在使用动态库，导入函数时也需要加上extern “C”。</li>
-</ol>
-</blockquote>
+<p>2.在声明导出函数时，再加上extern “C”。并且在使用动态库，导入函数时也需要加上extern “C”。</p>
 </blockquote>
 <div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB178438af8ea8c59349bee2205abc1025?method=download&shareKey=6e9c2470c12d481a41989e55f9bca89d">
 </div>
 
 <blockquote>
-<blockquote>
-<ol start="3">
-<li>微软还提供了另外一种方式：添加模块定义文件.def。此时在dll的头文件中就不需要extern “C” 和  _declspec(dllexport)了。但是使用动态库时依然需要。</li>
-</ol>
-</blockquote>
+<p>3.微软还提供了另外一种方式：添加模块定义文件.def。此时在dll的头文件中就不需要extern “C” 和  _declspec(dllexport)了。但是使用动态库时依然需要。</p>
 </blockquote>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEBc28524f08dae5bce2989ad755b529bb8?method=download&shareKey=66a559b2eacd860fd182f96fb7c7bdc1" alt="模块定义文件"></p>
 <h2 id="4-2-使用动态库"><a href="#4-2-使用动态库" class="headerlink" title="4.2 使用动态库"></a>4.2 使用动态库</h2><h3 id="方法一：（隐式调用动态库）-简单、推荐使用"><a href="#方法一：（隐式调用动态库）-简单、推荐使用" class="headerlink" title="方法一：（隐式调用动态库） 简单、推荐使用"></a>方法一：（隐式调用动态库） 简单、推荐使用</h3><ul>
@@ -853,10 +809,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">并查集</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">STL</a>
               </li>
              
@@ -874,6 +826,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">广度优先搜索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">并查集</a>
               </li>
              
               <li class="article-tag-list-item">
