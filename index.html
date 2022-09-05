@@ -198,419 +198,21 @@
     <div class="article-entry" itemprop="articleBody">
       
         
-          
-            <h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h1><p>先讨论几个基本概念。</p>
+          		<h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h1><p>先讨论几个基本概念。</p>
 <h2 id="1-1-编译预处理相关"><a href="#1-1-编译预处理相关" class="headerlink" title="1.1 编译预处理相关"></a>1.1 编译预处理相关</h2><div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB85ae7c72f0dcdfbdd5b630d6b22f44c5?method=download&shareKey=547ce6bb4769cb06335cd087e07f4339">
 </div>
-
-<p>源程序的中的编译预处理命令一律以#开头，回车键结束，每条命令占一行，并且通常放在源程序的开始部分。</p>
-<p>编译预处理的作用是将源程序文件中的预处理命令进行处理，生成一个中间文件，编译系统再对此中间文件进行编译并生成目标代码，最后生成的目标代码中不含有预处理命令；<font color=red>c++提供的预处理功能主要有宏定义(#define,#undef)、文件包含(#include)、条件编译(#ifdef,#ifndef,#else,#endif)</font>。</p>
-<p>#include &lt;&gt;   #include “”<br>&lt;&gt;和””表示编译器在搜索头文件时的顺序不同，&lt;&gt;表示从系统目录下开始搜索，然后再搜索PATH环境变量所列出的目录，<strong>不搜索当前目录</strong>，””是表示从当前目录开始搜索，然后是系统目录和PATH环境变量所列出的目录。<br>所以，系统头文件一般用&lt;&gt;，用户自己定义的则可以使用””，加快搜索速度。</p>
-<p>.h叫做头文件，它是不能被编译的。”#include”叫做编译预处理指令，可以简单理解成，在1.cpp中的#include”1.h”指令把1.h中的代码在编译前添加到了1.cpp的头部。每个.cpp文件会被编译，生成一个.obj文件(<font color=red>转化为汇编码，这种文件称为目标文件。后缀为.obj</font>)然后所有的.obj文件链接起来你的可执行程序(.exe文件)就算生成了。“<strong>建议：头文件里面放声明，实现文件里面放定义</strong>。”</p>
-<p>虽然常说定义不能放在头文件中，但是也有例外情况：</p>
-<ul>
-<li><p>头文件中可以定义普通变量或函数，但是前提条件是只有一个.c或者.cpp文件包含了这个头文件，否则会发生链接错误；</p>
-</li>
-<li><p>头文件中可以定义const或者static修饰的变量或者函数；</p>
-</li>
-<li><p>类的定义放在头文件中；</p>
-</li>
-<li><p>inline函数定义在头文件中。</p>
-</li>
-</ul>
-<p>另外，.h和.cpp文件名称对编译器是没有意义的，编译器只认#include等语句；但是为了编程规范和阅读方便，利于模块化和源代码重用，推荐将源文件及其头文件命名相同。</p>
-<h2 id="1-2-编译单元-模块"><a href="#1-2-编译单元-模块" class="headerlink" title="1.2 编译单元(模块)"></a>1.2 编译单元(模块)</h2><p>生成exe时有两步工作，第一步，将每个.cpp(.c)和相应.h文件编译成obj文件；第二步，将工程中所有的obj文件进行LINK生成最终的.exe文件，那么错误就有可能在两个地方产生，一个是编译时的错误，这个主要是语法错误，另一个是连接错误(LINK ERROR，它不像编译错误那样可以给出程序错误的具体位置)，主要是重复定义变量等。<br><font color=red> 我们所说的编译单元就是指在编译阶段生成 的每个obj文件，一个obj文件就是一个编译单元，也就是说一个cpp(.c)和它相应的.h文件共同组成了一个编译单元，一个工程由很多个编译单元组成，每个obj文件里包含了变量存储的相对地址等。 </font></p>
-<p>某一源文件包含头文件时预编译阶段自动将这个头文件内部的所有语句复制过来。</p>
-<ul>
-<li><p>若头文件只包含声明，具体实现在其他.c文件中，我们需要使用编译器将该文件与其他.c文件进行链接。</p>
-<p>  程序编译的时候，并不会去找b.cpp文件中的函数实现，只有在link的时候才进行这个工作。我们在a.cpp中用#include “b.h”实际上是引入相关声明，使得编译可以通过，程序并不关心实现是在哪里，是怎么实现的。源文件编译后成生了目标文件（.o或.obj文件），目标文件中，这些函数和变量就视作一个个符号。在link的时候，需要在makefile里面说明需要连接哪个.o或.obj文件（在这里是b.cpp生成的.o或.obj文件），此时，连接器会去这个.o或.obj文件中找在b.cpp中实现的函数，再把他们build到makefile中指定的那个可以执行文件中。</p>
-</li>
-<li><p>若头文件包含函数的具体实现，引用头文件此时函数具体定义也复制到该文件中，不需要再引用其他.c进行编译了。</p>
-</li>
-</ul>
-<h2 id="1-3-声明与定义的区别"><a href="#1-3-声明与定义的区别" class="headerlink" title="1.3 声明与定义的区别"></a>1.3 声明与定义的区别</h2><p><strong>函数或变量在声明时，并没有给它实际的物理内存空间，它有时候可以保证你的程序编译通过， 但是当函数或变量定义的时候，它就在内存中有了实际的物理空间</strong>。如果在编译模块中引用的外部变量没有在整个工程中任何一个地方定义的话， 那么即使它在编译时可以通过，在连接时也会报错，因为程序在内存中找不到这个变量！ <strong>注意：对同一个变量或函数的声明可以有多次，而定义只能有一次</strong>!</p>
-<p>一般来说，基本类型变量的声明和定义(初始化)是同时产生的;  而对于对象来说，声明和定义是分开的。</p>
-<h2 id="1-4-全局变量、外部变量、静态全局-x2F-局部变量"><a href="#1-4-全局变量、外部变量、静态全局-x2F-局部变量" class="headerlink" title="1.4 全局变量、外部变量、静态全局&#x2F;局部变量"></a>1.4 全局变量、外部变量、静态全局&#x2F;局部变量</h2><p><font color=red>全局变量</font>在整个程序中起作用，如果程序包含多个程序文件模块，可以通过外部声明，使得全局变量的作用范围扩展到其他模块，也可以通过定义<font color=red>静态全局变量</font>，使其作用范围仅限制在这个模块</p>
-<p><font color=red>静态局部变量</font>在第一次函数被调用时创造并初始化，但在函数退出时它不死亡，而是保持其值等待函数下一次被调用。下次调用时不再重新创造和初始化该变量，而是直接用上一次留下的值为基础来进行操作。</p>
-<p><strong>把局部变量改变为静态变量后是改变了它的存储方式即改变了它的生存期。把全局变量改变为静态变量后是改变了它的作用域，限制了它的使用范围</strong>。</p>
-<p>如果同一个源文件中，全局变量与局部变量同名，则在局部变量的作用范围内，全局变量被“屏蔽”， 即它不起作用</p>
-<p>详见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/newthon/article/details/42707521">https://blog.csdn.net/newthon/article/details/42707521</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42580901/article/details/109750948">https://blog.csdn.net/qq_42580901/article/details/109750948</a> </p>
-<h2 id="1-5-extern的作用"><a href="#1-5-extern的作用" class="headerlink" title="1.5 extern的作用"></a>1.5 extern的作用</h2><p>extern有两个作用，第一个,当它与”C”一起连用时，如: extern “C” void fun(int a, int b); 则告诉编译器在编译fun这个函数名时按着C的规则去翻译相应的函数名而不是C++的， C++的规则在翻译这个函数名时会把fun这个名字变得面目全非。<strong>因为C++支持函数的重载</strong>！</p>
-<p> 当extern不与”C”在一起修饰变量或函数时，如在头文件中: extern int g_Int; 它的作用就是声明函数或全局变量的作用范围的关键字，其声明的函数和变量可以在本模块或其他模块中使用，记住它是一个声明不是定义!也就是说B模块(编译单元)要是引用模块(编译单元)A中定义的全局变量或函数时，它只要包含A模块的头文件即可, 在编译阶段，模块B虽然找不到该函数或变量，但它不会报错，它会在连接时从模块A生成的目标代码中找到此函数。</p>
-<h1 id="2-几种全局变量-x2F-常量使用"><a href="#2-几种全局变量-x2F-常量使用" class="headerlink" title="2.几种全局变量&#x2F;常量使用"></a>2.几种全局变量&#x2F;常量使用</h1><h1 id="2-1-用extern修饰的全局变量"><a href="#2-1-用extern修饰的全局变量" class="headerlink" title="2.1 用extern修饰的全局变量"></a>2.1 用extern修饰的全局变量</h1><p>以上已经说了extern的作用，下面我们来举个例子,如: </p>
-<p>在test1.h中有下列声明: </p>
-<pre><code>#ifndef TEST1H
- #define TEST1H
- extern char g_str[]; // 声明全局变量g_str
- void fun1();
- #endif
-        
-</code></pre>
-<p>在test1.cpp中</p>
-<pre><code>#include &quot;test1.h&quot;
- char g_str[] = &quot;123456&quot;; // 定义全局变量g_str
- void fun1()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p> 以上是test1模块， 它的编译和连接都可以通过,如果我们还有test2模块也想使用g_str,只需要在原文件中引用就可以了。</p>
-<pre><code>#include &quot;test1.h&quot;
-
-void fun2()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p>以上test1和test2可以同时编译连接通过，如果你感兴趣的话可以用ultraEdit打开test1.obj,你可以在里面着”123456”这 个字符串,但是你却不能在test2.obj里面找到，这是因为g_str是整个工程的全局变量，在内存中只存在一份, test2.obj这个编译单元不需要再有一份了，不然会在连接时报告重复定义这个错误!     </p>
-<p>有些人喜欢把全局变量的声明和定义放在一起，这样可以防止忘记了定义，如在上面test1.h中改为     </p>
-<pre><code>extern char g_str[] = &quot;123456&quot;;  // 这个时候相当于没有extern   
-</code></pre>
-<p>然后把test1.cpp中的g_str的定义去掉,这个时候再编译连接test1和test2两个模块时，会报连接错误，这是因为你把全局变量 g_str的定义放在了头文件之后，test1.cpp这个模块包含了test1.h所以定义了一次g_str,而 test2.cpp也包含了test1.h所以再一次定义了g_str, 这个时候连接器在连接test1和test2时发现两个g_str。如果你非要把g_str的定义放在test1.h中的话，那么就把test2的代码 中#include “test1.h”去掉 换成:   </p>
-<pre><code>extern char g_str[];
- void fun2()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p>这个时候编译器就知道g_str是引自于外部的一个编译模块了，不会在本模块中再重复定义一个出来，但是不建议这样做，因为无法在 test2.cpp中使用#include “test1.h”, 那么test1.h中声明的其他函数你也无法使用了，除非也依次用都用extern修饰，这样的话你光声明的函数就要一大串，而且头文件的作用就是要给外部提供接口使用的，所以 请记住， 只在头文件中做声明，真理总是这么简单。</p>
-<h1 id="2-2-用static修饰的全局变量-—-gt-静态全局变量"><a href="#2-2-用static修饰的全局变量-—-gt-静态全局变量" class="headerlink" title="2.2 用static修饰的全局变量 —&gt; 静态全局变量"></a>2.2 用static修饰的全局变量 —&gt; 静态全局变量</h1><p>首先，<strong>extern和static不能同时修饰一个变量</strong>，静态变量的声明和定义同时进行；静态变量的作用域是本身的编译单元，其他编译单元则看不到它。</p>
-<p>test1.h:<br>     #ifndef TEST1H<br>     #define TEST1H<br>     static char g_str[] &#x3D; “123456”;<br>     void fun1();<br>     #endif</p>
-<p>test1.cpp:<br>     #include “test1.h”</p>
-<pre><code> void fun1()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
- 
-</code></pre>
-<p>test2.cpp<br>     #include “test1.h”</p>
-<pre><code> void fun2()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p>以上两个编译单元可以连接成功, 当你打开test1.obj时，你可以在它里面找到字符串”123456”, 同时你也可以在test2.obj中找到它们，它们之所以可以连接成功而没有报重复定义的错误是因为虽然它们有相同的内容，但是存储的物理地址并不一样， 就像是两个不同变量赋了相同的值一样，而这两个变量分别作用于它们各自的编译单元。</p>
-<p>所以一般定义static全局变量时，都把它放在源文件中而不是头文件，这样就不会给其他模块造成不必要的信息污染。</p>
-<h1 id="2-3-const修饰的全局常量"><a href="#2-3-const修饰的全局常量" class="headerlink" title="2.3 const修饰的全局常量"></a>2.3 const修饰的全局常量</h1><p>const修饰的全局常量用途很广，比如软件中的错误信息字符串都是用全局常量来定义的。</p>
-<p>（1） <font color=blue>const修饰的全局常量定义在头文件中</font></p>
-<pre><code>        例如：在test1.h中有定义全局常量
-
-                const int a=10;
-</code></pre>
-<p>则在任何源文件(如test1.cpp或者test2.cpp)中，只需要包含#include&lt;test1.h&gt;语句，均可使用常量a。<strong>此时不会有重复定义的错误</strong>。</p>
-<p>（2） <font color=blue>const修饰的全局常量定义在源文件（.cpp文件）中，据有跟static相同的特性，即它们只能作用于本编译模块中，<strong>但是const可以与extern连用来声明该常量可以作用于其他编译模块中</strong></font>。</p>
-<p>比如1：源文件test1.cpp中有定义const char g_str[] &#x3D; “123456”; 那么在头文件test1.h文件中必有 extern const char g_str[]; 才能在头文件test1.h中使用该全局变量。然后在其他的源文件，如test2.cpp中想使用该全局常量数组g_str，只需要包含头文件test1.h就可以。</p>
-<p>比如2：直接在源文件test1.cpp中定义extern const char g_str[] &#x3D; “123456”; 在其他的源文件，如test2.cpp中想使用该全局常量数组g_str，只需要加上extern const char g_str[];即可。</p>
-<p>注意：const char g_str[] &#x3D; “123456”等价于const char* const g_str&#x3D;”123456”</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
-<li><p>需要extern修饰的全局变量<u>尽量定义在源文件中（此时不加extern进行修饰），在头文件中利用extern对全局变量进行修饰表示声明</u>，其它需要用到该全局变量的源文件只需要包含该头文件即可；</p>
-</li>
-<li><p>static全局变量<u>只能定义在源文件中，且只对本文件有效</u>；如果定义在头文件中，不会出现编译错误，但是可能会与预想的结果有差异；</p>
-</li>
-<li><p>const修饰的全局常量，<u>建议定义在头文件中</u>，且不再需要再在相关应用到的源文件或者头文件中再做声明，只需要包含该头文件就可以。</p>
-</li>
-</ul>
-<h1 id="3-典型应用问题"><a href="#3-典型应用问题" class="headerlink" title="3.典型应用问题"></a>3.典型应用问题</h1><p>说明：</p>
-<ol>
-<li>const对象是文件局部变量。意味着，其他文件将不能Link到本文件的Const变量。</li>
-<li>如果在const前面加extern，意味着这个const对象可以被其他文件link到。</li>
-<li>在通过extern const变量进行获取声明而非初始化的时候，编译器会首先选择寻找这句extern之前有没有该对象的初始化声明。这是容易理解的，因为const的作用域本来就是文件作用域。如果在自己extern之前找不到（编译器是自上而下编译代码，它并不知道自己之后是什么），那么去外部看有没有其他使用extern方式初始化这个对象的地方。如果有，编译通过。如果没有会报link错误。</li>
-</ol>
-<h2 id="3-1-问题一"><a href="#3-1-问题一" class="headerlink" title="3.1 问题一"></a>3.1 问题一</h2><pre><code>1.cpp
-    extern const int i; //const int i = 1;
-    const int i = 1; //extern const int i;
-    int main(&#123;return O;&#125;
-2.cpp
-    extern const int i = 2;
-</code></pre>
-<p>为什么这样不能通过链接？而如果按注释里的顺序就能通过链接</p>
-<p>在1.cpp中如果先extern const int i，那么根据上述第三点，它先找自己之前有没有对i的初始化。很明显没有能够找到。于是去文件外部寻找link的place holder，结果发现在2.cpp中果然有这么一个定义。于是一个const i已经被找到并且已经被初始化。而此后第二句紧跟着就是一句对i的定义，因此此时一定会报link错误而不是编译错误：fatal error LNK1169: one or more multiply defined symbols found。</p>
-<p>那么为什么反过来就不会出错呢？很简单，第一句定义了并且初始化了局部变量i，第二句extern这个变量，当extern的变量是const对象时，现在自己的文件里面向上查找，如果找到，就不会再去其他地方link，因为const本来就是文件域。那么自然不会存在刚才的link错误。你可以试一下运行结果，在main函数中将i打印出来，你会发现，i的值是1，而不是2.</p>
-<h2 id="3-2-问题二"><a href="#3-2-问题二" class="headerlink" title="3.2 问题二"></a>3.2 问题二</h2><p>在C++中，定义一个全局的符号常量。在a.cpp中定义extern const double pi&#x3D;3.14; b.pp中extern const double pi可以通过编译运行。  在a.cpp中定义const double pi&#x3D;3.14; b.pp中extern const double pi;编译失败。</p>
-<p>原因：全局常量只能作用于本编译模块中，除非加上extern。</p>
-<h1 id="4-自建示例"><a href="#4-自建示例" class="headerlink" title="4.自建示例"></a>4.自建示例</h1><h2 id="4-1-情况一"><a href="#4-1-情况一" class="headerlink" title="4.1 情况一"></a>4.1 情况一</h2><p>test1.cpp</p>
-<pre><code>#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-
-extern const int x = 6;
-
-int main()
-&#123;
-
-      cout &lt;&lt; x &lt;&lt; endl;
-    func();
-    cout &lt;&lt; x &lt;&lt; endl;
-    return 0;
-&#125;
-</code></pre>
-<p>test2.h</p>
-<pre><code>#pragma once
-int func();    
-</code></pre>
-<p>test2.cpp</p>
-<pre><code>#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-
-extern const int x;
-
-int func()
-&#123;
-    cout &lt;&lt; x &lt;&lt; endl;
-    return x;
-&#125;  
-</code></pre>
-<p><font color=red>输出： 6 6 6 </font></p>
-<h2 id="4-2-情况二"><a href="#4-2-情况二" class="headerlink" title="4.2 情况二"></a>4.2 情况二</h2><p>test1.h</p>
-<pre><code>#pragma once
-extern int x;
-</code></pre>
-<p>test1.cpp</p>
-<pre><code>#include &quot;test.h&quot;
-#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-int x = 6;
-
-int main()
-&#123;
-
-      cout &lt;&lt; x &lt;&lt; endl;
-    func();
-    cout &lt;&lt; x &lt;&lt; endl;
-    return 0;
-&#125;
-</code></pre>
-<p>test2.h</p>
-<pre><code>#pragma once
-int func();    
-</code></pre>
-<p>test2.cpp</p>
-<pre><code>#include &quot;test.h&quot;
-#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-
-int func()
-&#123;
-    x=3;     //若是int x=3；最终输出：6 6 。因为同一个源文件中，全局变量与局部变量同名，则在局部变量的作用范围内，全局变量被“屏蔽”
-    return x;
-&#125;  
-</code></pre>
-<p><font color=red>输出： 6 3 </font></p>
-<p>文章参考于：<a target="_blank" rel="noopener" href="https://mbd.baidu.com/ug_share/mbox/4a83aa9e65/share?product=smartapp&amp;tk=5e224efe53efdbdf64f80f6eda2f8313&amp;share_url=https://yebd1h.smartapps.cn/pages/blog/index?blogId=98047269&_swebfr=1&_swebFromHost=baiduboxapp&amp;domain=mbd.baidu.com">https://mbd.baidu.com/ug_share/mbox/4a83aa9e65/share?product=smartapp&amp;tk=5e224efe53efdbdf64f80f6eda2f8313&amp;share_url=https%3A%2F%2Fyebd1h.smartapps.cn%2Fpages%2Fblog%2Findex%3FblogId%3D98047269%26_swebfr%3D1%26_swebFromHost%3Dbaiduboxapp&amp;domain=mbd.baidu.com</a></p>
-
           
-        
+         -->
 
       
         <h1 id="1-基本概念"><a href="#1-基本概念" class="headerlink" title="1.基本概念"></a>1.基本概念</h1><p>先讨论几个基本概念。</p>
 <h2 id="1-1-编译预处理相关"><a href="#1-1-编译预处理相关" class="headerlink" title="1.1 编译预处理相关"></a>1.1 编译预处理相关</h2><div style="text-align: center; ">
 <img src="https://note.youdao.com/yws/api/personal/file/WEB85ae7c72f0dcdfbdd5b630d6b22f44c5?method=download&shareKey=547ce6bb4769cb06335cd087e07f4339">
 </div>
-
-<p>源程序的中的编译预处理命令一律以#开头，回车键结束，每条命令占一行，并且通常放在源程序的开始部分。</p>
-<p>编译预处理的作用是将源程序文件中的预处理命令进行处理，生成一个中间文件，编译系统再对此中间文件进行编译并生成目标代码，最后生成的目标代码中不含有预处理命令；<font color=red>c++提供的预处理功能主要有宏定义(#define,#undef)、文件包含(#include)、条件编译(#ifdef,#ifndef,#else,#endif)</font>。</p>
-<p>#include &lt;&gt;   #include “”<br>&lt;&gt;和””表示编译器在搜索头文件时的顺序不同，&lt;&gt;表示从系统目录下开始搜索，然后再搜索PATH环境变量所列出的目录，<strong>不搜索当前目录</strong>，””是表示从当前目录开始搜索，然后是系统目录和PATH环境变量所列出的目录。<br>所以，系统头文件一般用&lt;&gt;，用户自己定义的则可以使用””，加快搜索速度。</p>
-<p>.h叫做头文件，它是不能被编译的。”#include”叫做编译预处理指令，可以简单理解成，在1.cpp中的#include”1.h”指令把1.h中的代码在编译前添加到了1.cpp的头部。每个.cpp文件会被编译，生成一个.obj文件(<font color=red>转化为汇编码，这种文件称为目标文件。后缀为.obj</font>)然后所有的.obj文件链接起来你的可执行程序(.exe文件)就算生成了。“<strong>建议：头文件里面放声明，实现文件里面放定义</strong>。”</p>
-<p>虽然常说定义不能放在头文件中，但是也有例外情况：</p>
-<ul>
-<li><p>头文件中可以定义普通变量或函数，但是前提条件是只有一个.c或者.cpp文件包含了这个头文件，否则会发生链接错误；</p>
-</li>
-<li><p>头文件中可以定义const或者static修饰的变量或者函数；</p>
-</li>
-<li><p>类的定义放在头文件中；</p>
-</li>
-<li><p>inline函数定义在头文件中。</p>
-</li>
-</ul>
-<p>另外，.h和.cpp文件名称对编译器是没有意义的，编译器只认#include等语句；但是为了编程规范和阅读方便，利于模块化和源代码重用，推荐将源文件及其头文件命名相同。</p>
-<h2 id="1-2-编译单元-模块"><a href="#1-2-编译单元-模块" class="headerlink" title="1.2 编译单元(模块)"></a>1.2 编译单元(模块)</h2><p>生成exe时有两步工作，第一步，将每个.cpp(.c)和相应.h文件编译成obj文件；第二步，将工程中所有的obj文件进行LINK生成最终的.exe文件，那么错误就有可能在两个地方产生，一个是编译时的错误，这个主要是语法错误，另一个是连接错误(LINK ERROR，它不像编译错误那样可以给出程序错误的具体位置)，主要是重复定义变量等。<br><font color=red> 我们所说的编译单元就是指在编译阶段生成 的每个obj文件，一个obj文件就是一个编译单元，也就是说一个cpp(.c)和它相应的.h文件共同组成了一个编译单元，一个工程由很多个编译单元组成，每个obj文件里包含了变量存储的相对地址等。 </font></p>
-<p>某一源文件包含头文件时预编译阶段自动将这个头文件内部的所有语句复制过来。</p>
-<ul>
-<li><p>若头文件只包含声明，具体实现在其他.c文件中，我们需要使用编译器将该文件与其他.c文件进行链接。</p>
-<p>  程序编译的时候，并不会去找b.cpp文件中的函数实现，只有在link的时候才进行这个工作。我们在a.cpp中用#include “b.h”实际上是引入相关声明，使得编译可以通过，程序并不关心实现是在哪里，是怎么实现的。源文件编译后成生了目标文件（.o或.obj文件），目标文件中，这些函数和变量就视作一个个符号。在link的时候，需要在makefile里面说明需要连接哪个.o或.obj文件（在这里是b.cpp生成的.o或.obj文件），此时，连接器会去这个.o或.obj文件中找在b.cpp中实现的函数，再把他们build到makefile中指定的那个可以执行文件中。</p>
-</li>
-<li><p>若头文件包含函数的具体实现，引用头文件此时函数具体定义也复制到该文件中，不需要再引用其他.c进行编译了。</p>
-</li>
-</ul>
-<h2 id="1-3-声明与定义的区别"><a href="#1-3-声明与定义的区别" class="headerlink" title="1.3 声明与定义的区别"></a>1.3 声明与定义的区别</h2><p><strong>函数或变量在声明时，并没有给它实际的物理内存空间，它有时候可以保证你的程序编译通过， 但是当函数或变量定义的时候，它就在内存中有了实际的物理空间</strong>。如果在编译模块中引用的外部变量没有在整个工程中任何一个地方定义的话， 那么即使它在编译时可以通过，在连接时也会报错，因为程序在内存中找不到这个变量！ <strong>注意：对同一个变量或函数的声明可以有多次，而定义只能有一次</strong>!</p>
-<p>一般来说，基本类型变量的声明和定义(初始化)是同时产生的;  而对于对象来说，声明和定义是分开的。</p>
-<h2 id="1-4-全局变量、外部变量、静态全局-x2F-局部变量"><a href="#1-4-全局变量、外部变量、静态全局-x2F-局部变量" class="headerlink" title="1.4 全局变量、外部变量、静态全局&#x2F;局部变量"></a>1.4 全局变量、外部变量、静态全局&#x2F;局部变量</h2><p><font color=red>全局变量</font>在整个程序中起作用，如果程序包含多个程序文件模块，可以通过外部声明，使得全局变量的作用范围扩展到其他模块，也可以通过定义<font color=red>静态全局变量</font>，使其作用范围仅限制在这个模块</p>
-<p><font color=red>静态局部变量</font>在第一次函数被调用时创造并初始化，但在函数退出时它不死亡，而是保持其值等待函数下一次被调用。下次调用时不再重新创造和初始化该变量，而是直接用上一次留下的值为基础来进行操作。</p>
-<p><strong>把局部变量改变为静态变量后是改变了它的存储方式即改变了它的生存期。把全局变量改变为静态变量后是改变了它的作用域，限制了它的使用范围</strong>。</p>
-<p>如果同一个源文件中，全局变量与局部变量同名，则在局部变量的作用范围内，全局变量被“屏蔽”， 即它不起作用</p>
-<p>详见：<a target="_blank" rel="noopener" href="https://blog.csdn.net/newthon/article/details/42707521">https://blog.csdn.net/newthon/article/details/42707521</a></p>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42580901/article/details/109750948">https://blog.csdn.net/qq_42580901/article/details/109750948</a> </p>
-<h2 id="1-5-extern的作用"><a href="#1-5-extern的作用" class="headerlink" title="1.5 extern的作用"></a>1.5 extern的作用</h2><p>extern有两个作用，第一个,当它与”C”一起连用时，如: extern “C” void fun(int a, int b); 则告诉编译器在编译fun这个函数名时按着C的规则去翻译相应的函数名而不是C++的， C++的规则在翻译这个函数名时会把fun这个名字变得面目全非。<strong>因为C++支持函数的重载</strong>！</p>
-<p> 当extern不与”C”在一起修饰变量或函数时，如在头文件中: extern int g_Int; 它的作用就是声明函数或全局变量的作用范围的关键字，其声明的函数和变量可以在本模块或其他模块中使用，记住它是一个声明不是定义!也就是说B模块(编译单元)要是引用模块(编译单元)A中定义的全局变量或函数时，它只要包含A模块的头文件即可, 在编译阶段，模块B虽然找不到该函数或变量，但它不会报错，它会在连接时从模块A生成的目标代码中找到此函数。</p>
-<h1 id="2-几种全局变量-x2F-常量使用"><a href="#2-几种全局变量-x2F-常量使用" class="headerlink" title="2.几种全局变量&#x2F;常量使用"></a>2.几种全局变量&#x2F;常量使用</h1><h1 id="2-1-用extern修饰的全局变量"><a href="#2-1-用extern修饰的全局变量" class="headerlink" title="2.1 用extern修饰的全局变量"></a>2.1 用extern修饰的全局变量</h1><p>以上已经说了extern的作用，下面我们来举个例子,如: </p>
-<p>在test1.h中有下列声明: </p>
-<pre><code>#ifndef TEST1H
- #define TEST1H
- extern char g_str[]; // 声明全局变量g_str
- void fun1();
- #endif
         
-</code></pre>
-<p>在test1.cpp中</p>
-<pre><code>#include &quot;test1.h&quot;
- char g_str[] = &quot;123456&quot;; // 定义全局变量g_str
- void fun1()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p> 以上是test1模块， 它的编译和连接都可以通过,如果我们还有test2模块也想使用g_str,只需要在原文件中引用就可以了。</p>
-<pre><code>#include &quot;test1.h&quot;
-
-void fun2()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p>以上test1和test2可以同时编译连接通过，如果你感兴趣的话可以用ultraEdit打开test1.obj,你可以在里面着”123456”这 个字符串,但是你却不能在test2.obj里面找到，这是因为g_str是整个工程的全局变量，在内存中只存在一份, test2.obj这个编译单元不需要再有一份了，不然会在连接时报告重复定义这个错误!     </p>
-<p>有些人喜欢把全局变量的声明和定义放在一起，这样可以防止忘记了定义，如在上面test1.h中改为     </p>
-<pre><code>extern char g_str[] = &quot;123456&quot;;  // 这个时候相当于没有extern   
-</code></pre>
-<p>然后把test1.cpp中的g_str的定义去掉,这个时候再编译连接test1和test2两个模块时，会报连接错误，这是因为你把全局变量 g_str的定义放在了头文件之后，test1.cpp这个模块包含了test1.h所以定义了一次g_str,而 test2.cpp也包含了test1.h所以再一次定义了g_str, 这个时候连接器在连接test1和test2时发现两个g_str。如果你非要把g_str的定义放在test1.h中的话，那么就把test2的代码 中#include “test1.h”去掉 换成:   </p>
-<pre><code>extern char g_str[];
- void fun2()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p>这个时候编译器就知道g_str是引自于外部的一个编译模块了，不会在本模块中再重复定义一个出来，但是不建议这样做，因为无法在 test2.cpp中使用#include “test1.h”, 那么test1.h中声明的其他函数你也无法使用了，除非也依次用都用extern修饰，这样的话你光声明的函数就要一大串，而且头文件的作用就是要给外部提供接口使用的，所以 请记住， 只在头文件中做声明，真理总是这么简单。</p>
-<h1 id="2-2-用static修饰的全局变量-—-gt-静态全局变量"><a href="#2-2-用static修饰的全局变量-—-gt-静态全局变量" class="headerlink" title="2.2 用static修饰的全局变量 —&gt; 静态全局变量"></a>2.2 用static修饰的全局变量 —&gt; 静态全局变量</h1><p>首先，<strong>extern和static不能同时修饰一个变量</strong>，静态变量的声明和定义同时进行；静态变量的作用域是本身的编译单元，其他编译单元则看不到它。</p>
-<p>test1.h:<br>     #ifndef TEST1H<br>     #define TEST1H<br>     static char g_str[] &#x3D; “123456”;<br>     void fun1();<br>     #endif</p>
-<p>test1.cpp:<br>     #include “test1.h”</p>
-<pre><code> void fun1()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
- 
-</code></pre>
-<p>test2.cpp<br>     #include “test1.h”</p>
-<pre><code> void fun2()
- &#123;
-     cout &lt;&lt; g_str &lt;&lt; endl;
- &#125;
-</code></pre>
-<p>以上两个编译单元可以连接成功, 当你打开test1.obj时，你可以在它里面找到字符串”123456”, 同时你也可以在test2.obj中找到它们，它们之所以可以连接成功而没有报重复定义的错误是因为虽然它们有相同的内容，但是存储的物理地址并不一样， 就像是两个不同变量赋了相同的值一样，而这两个变量分别作用于它们各自的编译单元。</p>
-<p>所以一般定义static全局变量时，都把它放在源文件中而不是头文件，这样就不会给其他模块造成不必要的信息污染。</p>
-<h1 id="2-3-const修饰的全局常量"><a href="#2-3-const修饰的全局常量" class="headerlink" title="2.3 const修饰的全局常量"></a>2.3 const修饰的全局常量</h1><p>const修饰的全局常量用途很广，比如软件中的错误信息字符串都是用全局常量来定义的。</p>
-<p>（1） <font color=blue>const修饰的全局常量定义在头文件中</font></p>
-<pre><code>        例如：在test1.h中有定义全局常量
-
-                const int a=10;
-</code></pre>
-<p>则在任何源文件(如test1.cpp或者test2.cpp)中，只需要包含#include&lt;test1.h&gt;语句，均可使用常量a。<strong>此时不会有重复定义的错误</strong>。</p>
-<p>（2） <font color=blue>const修饰的全局常量定义在源文件（.cpp文件）中，据有跟static相同的特性，即它们只能作用于本编译模块中，<strong>但是const可以与extern连用来声明该常量可以作用于其他编译模块中</strong></font>。</p>
-<p>比如1：源文件test1.cpp中有定义const char g_str[] &#x3D; “123456”; 那么在头文件test1.h文件中必有 extern const char g_str[]; 才能在头文件test1.h中使用该全局变量。然后在其他的源文件，如test2.cpp中想使用该全局常量数组g_str，只需要包含头文件test1.h就可以。</p>
-<p>比如2：直接在源文件test1.cpp中定义extern const char g_str[] &#x3D; “123456”; 在其他的源文件，如test2.cpp中想使用该全局常量数组g_str，只需要加上extern const char g_str[];即可。</p>
-<p>注意：const char g_str[] &#x3D; “123456”等价于const char* const g_str&#x3D;”123456”</p>
-<h2 id="总结："><a href="#总结：" class="headerlink" title="总结："></a>总结：</h2><ul>
-<li><p>需要extern修饰的全局变量<u>尽量定义在源文件中（此时不加extern进行修饰），在头文件中利用extern对全局变量进行修饰表示声明</u>，其它需要用到该全局变量的源文件只需要包含该头文件即可；</p>
-</li>
-<li><p>static全局变量<u>只能定义在源文件中，且只对本文件有效</u>；如果定义在头文件中，不会出现编译错误，但是可能会与预想的结果有差异；</p>
-</li>
-<li><p>const修饰的全局常量，<u>建议定义在头文件中</u>，且不再需要再在相关应用到的源文件或者头文件中再做声明，只需要包含该头文件就可以。</p>
-</li>
-</ul>
-<h1 id="3-典型应用问题"><a href="#3-典型应用问题" class="headerlink" title="3.典型应用问题"></a>3.典型应用问题</h1><p>说明：</p>
-<ol>
-<li>const对象是文件局部变量。意味着，其他文件将不能Link到本文件的Const变量。</li>
-<li>如果在const前面加extern，意味着这个const对象可以被其他文件link到。</li>
-<li>在通过extern const变量进行获取声明而非初始化的时候，编译器会首先选择寻找这句extern之前有没有该对象的初始化声明。这是容易理解的，因为const的作用域本来就是文件作用域。如果在自己extern之前找不到（编译器是自上而下编译代码，它并不知道自己之后是什么），那么去外部看有没有其他使用extern方式初始化这个对象的地方。如果有，编译通过。如果没有会报link错误。</li>
-</ol>
-<h2 id="3-1-问题一"><a href="#3-1-问题一" class="headerlink" title="3.1 问题一"></a>3.1 问题一</h2><pre><code>1.cpp
-    extern const int i; //const int i = 1;
-    const int i = 1; //extern const int i;
-    int main(&#123;return O;&#125;
-2.cpp
-    extern const int i = 2;
-</code></pre>
-<p>为什么这样不能通过链接？而如果按注释里的顺序就能通过链接</p>
-<p>在1.cpp中如果先extern const int i，那么根据上述第三点，它先找自己之前有没有对i的初始化。很明显没有能够找到。于是去文件外部寻找link的place holder，结果发现在2.cpp中果然有这么一个定义。于是一个const i已经被找到并且已经被初始化。而此后第二句紧跟着就是一句对i的定义，因此此时一定会报link错误而不是编译错误：fatal error LNK1169: one or more multiply defined symbols found。</p>
-<p>那么为什么反过来就不会出错呢？很简单，第一句定义了并且初始化了局部变量i，第二句extern这个变量，当extern的变量是const对象时，现在自己的文件里面向上查找，如果找到，就不会再去其他地方link，因为const本来就是文件域。那么自然不会存在刚才的link错误。你可以试一下运行结果，在main函数中将i打印出来，你会发现，i的值是1，而不是2.</p>
-<h2 id="3-2-问题二"><a href="#3-2-问题二" class="headerlink" title="3.2 问题二"></a>3.2 问题二</h2><p>在C++中，定义一个全局的符号常量。在a.cpp中定义extern const double pi&#x3D;3.14; b.pp中extern const double pi可以通过编译运行。  在a.cpp中定义const double pi&#x3D;3.14; b.pp中extern const double pi;编译失败。</p>
-<p>原因：全局常量只能作用于本编译模块中，除非加上extern。</p>
-<h1 id="4-自建示例"><a href="#4-自建示例" class="headerlink" title="4.自建示例"></a>4.自建示例</h1><h2 id="4-1-情况一"><a href="#4-1-情况一" class="headerlink" title="4.1 情况一"></a>4.1 情况一</h2><p>test1.cpp</p>
-<pre><code>#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-
-extern const int x = 6;
-
-int main()
-&#123;
-
-      cout &lt;&lt; x &lt;&lt; endl;
-    func();
-    cout &lt;&lt; x &lt;&lt; endl;
-    return 0;
-&#125;
-</code></pre>
-<p>test2.h</p>
-<pre><code>#pragma once
-int func();    
-</code></pre>
-<p>test2.cpp</p>
-<pre><code>#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-
-extern const int x;
-
-int func()
-&#123;
-    cout &lt;&lt; x &lt;&lt; endl;
-    return x;
-&#125;  
-</code></pre>
-<p><font color=red>输出： 6 6 6 </font></p>
-<h2 id="4-2-情况二"><a href="#4-2-情况二" class="headerlink" title="4.2 情况二"></a>4.2 情况二</h2><p>test1.h</p>
-<pre><code>#pragma once
-extern int x;
-</code></pre>
-<p>test1.cpp</p>
-<pre><code>#include &quot;test.h&quot;
-#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-int x = 6;
-
-int main()
-&#123;
-
-      cout &lt;&lt; x &lt;&lt; endl;
-    func();
-    cout &lt;&lt; x &lt;&lt; endl;
-    return 0;
-&#125;
-</code></pre>
-<p>test2.h</p>
-<pre><code>#pragma once
-int func();    
-</code></pre>
-<p>test2.cpp</p>
-<pre><code>#include &quot;test.h&quot;
-#include &quot;test2.h&quot;
-#include &lt;iostream&gt;
-using namespace std;
-
-int func()
-&#123;
-    x=3;     //若是int x=3；最终输出：6 6 。因为同一个源文件中，全局变量与局部变量同名，则在局部变量的作用范围内，全局变量被“屏蔽”
-    return x;
-&#125;  
-</code></pre>
-<p><font color=red>输出： 6 3 </font></p>
-<p>文章参考于：<a target="_blank" rel="noopener" href="https://mbd.baidu.com/ug_share/mbox/4a83aa9e65/share?product=smartapp&amp;tk=5e224efe53efdbdf64f80f6eda2f8313&amp;share_url=https://yebd1h.smartapps.cn/pages/blog/index?blogId=98047269&_swebfr=1&_swebFromHost=baiduboxapp&amp;domain=mbd.baidu.com">https://mbd.baidu.com/ug_share/mbox/4a83aa9e65/share?product=smartapp&amp;tk=5e224efe53efdbdf64f80f6eda2f8313&amp;share_url=https%3A%2F%2Fyebd1h.smartapps.cn%2Fpages%2Fblog%2Findex%3FblogId%3D98047269%26_swebfr%3D1%26_swebFromHost%3Dbaiduboxapp&amp;domain=mbd.baidu.com</a></p>
-
+          <a class="article-more-a" href="/2022/09/05/C-extern%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3/#more">more >></a>
+        
       
 
       
@@ -710,7 +312,7 @@ int func()
           
             
           
-        
+         -->
 
       
         
@@ -816,7 +418,7 @@ int func()
         
           		<h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><p>平时在进行项目开发时，经常遇到各种库的调用。这里就对静态库、动态库的构建和调用做一个简单的总结。</p>
           
-        
+         -->
 
       
         <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><p>平时在进行项目开发时，经常遇到各种库的调用。这里就对静态库、动态库的构建和调用做一个简单的总结。</p>
@@ -913,7 +515,7 @@ int func()
         
           		<h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><p>这几天刷Leetcode时初步接触到动态规划的题，被这解法震撼到了。用其他解法会很复杂的题，用动态规划可以很简洁的就实现。<br>比如：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/">https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/</a></p>
           
-        
+         -->
 
       
         <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><p>这几天刷Leetcode时初步接触到动态规划的题，被这解法震撼到了。用其他解法会很复杂的题，用动态规划可以很简洁的就实现。<br>比如：<a target="_blank" rel="noopener" href="https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/">https://leetcode.cn/problems/perfect-squares/solution/wan-quan-ping-fang-shu-by-leetcode-solut-t99c/</a></p>
@@ -1018,7 +620,7 @@ int func()
         
           		<h1 id="1-基本介绍"><a href="#1-基本介绍" class="headerlink" title="1.基本介绍"></a>1.基本介绍</h1><p>定义：并查集是一种树型的数据结构，用于处理一些不相交集合的<strong>合并</strong>及<strong>查询</strong>问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。<br>并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。</p>
           
-        
+         -->
 
       
         <h1 id="1-基本介绍"><a href="#1-基本介绍" class="headerlink" title="1.基本介绍"></a>1.基本介绍</h1><p>定义：并查集是一种树型的数据结构，用于处理一些不相交集合的<strong>合并</strong>及<strong>查询</strong>问题（即所谓的并、查）。比如说，我们可以用并查集来判断一个森林中有几棵树、某个节点是否属于某棵树等。<br>并查集的思想是用一个数组表示了整片森林（parent），树的根节点唯一标识了一个集合，我们只要找到了某个元素的树根，就能确定它在哪个集合里。</p>
@@ -1121,7 +723,7 @@ int func()
 <p>学完了C++STL的常用容器后一直有个疑惑，就是数据结构中的哈希结构为什么没有对应的实现，今天在刷题的时候遇到一道可以用哈希表解决的题目。因此查询了解了map、hash_map、unordered_map留以记录。</p>
 <p>STL 标准库中有序列式容器，包括 string、vector、deque、list、stack、queue 容器；关联式容器，包括 map、multimap、set 以及 multiset 这 4 种容器；C++ 11 标准库又引入了一类容器，即无序关联式容器(又称哈希容器)，包括 unordered_map、unordered_multimap、unordered_set 以及 unordered_multiset。。</p>
           
-        
+         -->
 
       
         <h1 id="1-引言"><a href="#1-引言" class="headerlink" title="1.引言"></a>1.引言</h1><hr>
@@ -1228,7 +830,7 @@ int func()
         
           		<p>看完这本书已有一段时间，发现刷LeetCode时对数据结构一些知识点比较混乱、模糊，于是花了一点时间对书中整体框架进行了整理。<br>（ps：若看不清，图片可点击放大）</p>
           
-        
+         -->
 
       
         <p>看完这本书已有一段时间，发现刷LeetCode时对数据结构一些知识点比较混乱、模糊，于是花了一点时间对书中整体框架进行了整理。<br>（ps：若看不清，图片可点击放大）</p>
@@ -1399,22 +1001,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">C/C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">头文件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">编译链接</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">extern</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
               </li>
              
@@ -1428,6 +1014,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">哈希</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">C/C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">头文件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">编译链接</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">extern</a>
               </li>
              
               <li class="article-tag-list-item">
