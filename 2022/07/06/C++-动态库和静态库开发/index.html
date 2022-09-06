@@ -35,7 +35,7 @@
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB52e9b976ebcf32d5cd2c33967d1232e2?method=download&shareKey=238f4b4d9a0d3333fa3c1b370f269af3">
 <meta property="og:image" content="https://note.youdao.com/yws/api/personal/file/WEB66da2972f37f9de2e0bf3b79faa4a9e9?method=download&shareKey=f5e0d79e90201095e13c0bd7ca910cac">
 <meta property="article:published_time" content="2022-07-06T15:14:29.000Z">
-<meta property="article:modified_time" content="2022-09-05T15:33:16.891Z">
+<meta property="article:modified_time" content="2022-09-06T01:17:34.960Z">
 <meta property="article:author" content="By ZX">
 <meta property="article:tag" content="C++">
 <meta property="article:tag" content="库开发">
@@ -289,7 +289,7 @@
 
 <p>此时还需要在testdll的”项目属性页-C&#x2F;C++-预处理器-预处理器定义”中添加一个预处理变量”_DLLAPI”，<strong>即为了使建立dll时使用export，使用dll时使用imporrt</strong>。</p>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEB2362c384d21cf3639bcbbd3b8abecba9?method=download&shareKey=b4230123f11ac123be26ed01f881ab2e" alt="建立设置"></p>
-<p>3.存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(**原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号**)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。
+<p>3.存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(<b>原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号</b>)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。
 
 <p>解决方法：</p>
 <blockquote>
@@ -438,7 +438,7 @@
 
 <p>此时还需要在testdll的”项目属性页-C&#x2F;C++-预处理器-预处理器定义”中添加一个预处理变量”_DLLAPI”，<strong>即为了使建立dll时使用export，使用dll时使用imporrt</strong>。</p>
 <p><img src="https://note.youdao.com/yws/api/personal/file/WEB2362c384d21cf3639bcbbd3b8abecba9?method=download&shareKey=b4230123f11ac123be26ed01f881ab2e" alt="建立设置"></p>
-<p>3.存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(**原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号**)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。
+<p>3.存在的问题：<u>此时如果使用Dependency Walker软件查看导出函数，会发现函数名称都会被增加额外的符号</u>(<b>原因是c++为了实现重载，编译器会在导出函数原名称上加上很多符号</b>)。 </p>   会产生的影响：此时如果使用**显式调用**，其中GetProcAddress()指令中就需要写全名称，如"?add@......"，比较麻烦。
 
 <p>解决方法：</p>
 <blockquote>
