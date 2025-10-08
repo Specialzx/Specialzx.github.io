@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>访客文件上传 | ZXblog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="📤 匿名文件中转站   单文件 ≤100 MB，链接 14 天内有效，下载 1 次后自动删除。       上传          async function upload(){     const file &#x3D; fileInput.files[0];     if(!file) return log.textContent&#x3D;&#39;请先选择文件&#39;;     upBtn.disabled&#x3D;tr">
+  <meta name="description" content="📤 匿名上传      上传          async function up(){     const file &#x3D; f.files[0];     if(!file) return log.textContent&#x3D;&#39;先选文件&#39;;     log.textContent&#x3D;&#39;上传中 …&#39;;     try{       const r&#x3D;await fetch(&#96;https:&#x2F;&#x2F;tran">
 <meta property="og:type" content="website">
 <meta property="og:title" content="访客文件上传">
 <meta property="og:url" content="http://example.com/upload/index.html">
 <meta property="og:site_name" content="ZXblog">
-<meta property="og:description" content="📤 匿名文件中转站   单文件 ≤100 MB，链接 14 天内有效，下载 1 次后自动删除。       上传          async function upload(){     const file &#x3D; fileInput.files[0];     if(!file) return log.textContent&#x3D;&#39;请先选择文件&#39;;     upBtn.disabled&#x3D;tr">
+<meta property="og:description" content="📤 匿名上传      上传          async function up(){     const file &#x3D; f.files[0];     if(!file) return log.textContent&#x3D;&#39;先选文件&#39;;     log.textContent&#x3D;&#39;上传中 …&#39;;     try{       const r&#x3D;await fetch(&#96;https:&#x2F;&#x2F;tran">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-10-08T09:09:28.998Z">
-<meta property="article:modified_time" content="2025-10-08T09:09:28.998Z">
+<meta property="article:published_time" content="2025-10-08T12:31:43.375Z">
+<meta property="article:modified_time" content="2025-10-08T12:31:43.375Z">
 <meta property="article:author" content="By ZX">
 <meta name="twitter:card" content="summary">
   
@@ -190,7 +190,7 @@
 
         
         <a href="/upload/index.html" class="archive-article-date">
-  	<time datetime="2025-10-08T09:09:28.998Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-10-08</time>
+  	<time datetime="2025-10-08T12:31:43.375Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-10-08</time>
 </a>
         
       </header>
@@ -199,38 +199,28 @@
       
         
           <!-- 
-            <div id="up-area" style="max-width:480px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif;">
-  <h2>📤 匿名文件中转站</h2>
-  <p>单文件 ≤100 MB，链接 14 天内有效，下载 1 次后自动删除。</p>
-
-  <input id="fileInput" type="file" style="margin:1rem 0">
-  <button id="upBtn" onclick="upload()">上传</button>
-  <div id="log" style="margin-top:1rem;color:#666;font-size:14px"></div>
+            <div style="max-width:480px;margin:2rem auto">
+  <h3>📤 匿名上传</h3>
+  <input id="f" type="file">
+  <button onclick="up()">上传</button>
+  <pre id="log"></pre>
 
   <script>
-  async function upload(){
-    const file = fileInput.files[0];
-    if(!file) return log.textContent='请先选择文件';
-    upBtn.disabled=true;
+  async function up(){
+    const file = f.files[0];
+    if(!file) return log.textContent='先选文件';
     log.textContent='上传中 …';
-
     try{
-      const res=await fetch('https://file.io/?expires=14d',{
-        method:'POST',
-        body: new FormData().append('file',file) && new FormData().append('file',file)
-      }).then(r=>r.json());
-
-      if(res.success){
-        log.innerHTML=`✅ 上传完成<br>直链（点击复制）:<br>
-        <input id="link" style="width:100%;padding:4px" value="${res.link}" readonly>
-        <button onclick="link.select();document.execCommand('copy')">复制</button>`;
-      }else{
-        throw new Error(res.message||'未知错误');
-      }
+      const r=await fetch(`https://transfer.sh/${encodeURIComponent(file.name)}`,{
+        method:'PUT',
+        body:file,
+        headers:{'Content-Type':'application/octet-stream'}
+      });
+      if(!r.ok) throw new Error(r.statusText);
+      const url=await r.text();
+      log.textContent='✅ 直链（复制即可）：\n'+url;
     }catch(e){
       log.textContent='❌ '+e.message;
-    }finally{
-      upBtn.disabled=false;
     }
   }
   </script>
@@ -239,38 +229,28 @@
          -->
 
       
-        <div id="up-area" style="max-width:480px;margin:0 auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif;">
-  <h2>📤 匿名文件中转站</h2>
-  <p>单文件 ≤100 MB，链接 14 天内有效，下载 1 次后自动删除。</p>
-
-  <input id="fileInput" type="file" style="margin:1rem 0">
-  <button id="upBtn" onclick="upload()">上传</button>
-  <div id="log" style="margin-top:1rem;color:#666;font-size:14px"></div>
+        <div style="max-width:480px;margin:2rem auto">
+  <h3>📤 匿名上传</h3>
+  <input id="f" type="file">
+  <button onclick="up()">上传</button>
+  <pre id="log"></pre>
 
   <script>
-  async function upload(){
-    const file = fileInput.files[0];
-    if(!file) return log.textContent='请先选择文件';
-    upBtn.disabled=true;
+  async function up(){
+    const file = f.files[0];
+    if(!file) return log.textContent='先选文件';
     log.textContent='上传中 …';
-
     try{
-      const res=await fetch('https://file.io/?expires=14d',{
-        method:'POST',
-        body: new FormData().append('file',file) && new FormData().append('file',file)
-      }).then(r=>r.json());
-
-      if(res.success){
-        log.innerHTML=`✅ 上传完成<br>直链（点击复制）:<br>
-        <input id="link" style="width:100%;padding:4px" value="${res.link}" readonly>
-        <button onclick="link.select();document.execCommand('copy')">复制</button>`;
-      }else{
-        throw new Error(res.message||'未知错误');
-      }
+      const r=await fetch(`https://transfer.sh/${encodeURIComponent(file.name)}`,{
+        method:'PUT',
+        body:file,
+        headers:{'Content-Type':'application/octet-stream'}
+      });
+      if(!r.ok) throw new Error(r.statusText);
+      const url=await r.text();
+      log.textContent='✅ 直链（复制即可）：\n'+url;
     }catch(e){
       log.textContent='❌ '+e.message;
-    }finally{
-      upBtn.disabled=false;
     }
   }
   </script>
@@ -386,7 +366,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#up-area"><span class="toc-number">1.</span> <span class="toc-text">📤 匿名文件中转站</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">📤 匿名上传</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -536,15 +516,15 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">深度优先搜索</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">广度优先搜索</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
               </li>
             
             <div class="clearfix"></div>
