@@ -8,15 +8,15 @@
   <link rel="dns-prefetch" href="http://example.com">
   <title>访客文件上传 | ZXblog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="📤 匿名上传      上传          async function up(){     const file &#x3D; f.files[0];     if(!file) return log.textContent&#x3D;&#39;先选文件&#39;;     log.textContent&#x3D;&#39;上传中 …&#39;;     try{       const r&#x3D;await fetch(&#96;https:&#x2F;&#x2F;tran">
+  <meta name="description" content="📤 匿名文件中转站   单文件 ≤200 MB，永久直链。      上传          async function submit(){     const f &#x3D; file.files[0];     if(!f) return msg.textContent&#x3D;&#39;请先选择文件&#39;;     msg.textContent&#x3D;&#39;上传中 …&#39;;     const fd &#x3D; new For">
 <meta property="og:type" content="website">
 <meta property="og:title" content="访客文件上传">
 <meta property="og:url" content="http://example.com/upload/index.html">
 <meta property="og:site_name" content="ZXblog">
-<meta property="og:description" content="📤 匿名上传      上传          async function up(){     const file &#x3D; f.files[0];     if(!file) return log.textContent&#x3D;&#39;先选文件&#39;;     log.textContent&#x3D;&#39;上传中 …&#39;;     try{       const r&#x3D;await fetch(&#96;https:&#x2F;&#x2F;tran">
+<meta property="og:description" content="📤 匿名文件中转站   单文件 ≤200 MB，永久直链。      上传          async function submit(){     const f &#x3D; file.files[0];     if(!f) return msg.textContent&#x3D;&#39;请先选择文件&#39;;     msg.textContent&#x3D;&#39;上传中 …&#39;;     const fd &#x3D; new For">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2025-10-08T12:31:43.375Z">
-<meta property="article:modified_time" content="2025-10-08T12:31:43.375Z">
+<meta property="article:published_time" content="2025-10-08T12:43:44.526Z">
+<meta property="article:modified_time" content="2025-10-08T12:43:44.526Z">
 <meta property="article:author" content="By ZX">
 <meta name="twitter:card" content="summary">
   
@@ -190,7 +190,7 @@
 
         
         <a href="/upload/index.html" class="archive-article-date">
-  	<time datetime="2025-10-08T12:31:43.375Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-10-08</time>
+  	<time datetime="2025-10-08T12:43:44.526Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2025-10-08</time>
 </a>
         
       </header>
@@ -199,29 +199,28 @@
       
         
           <!-- 
-            <div style="max-width:480px;margin:2rem auto">
-  <h3>📤 匿名上传</h3>
-  <input id="f" type="file">
-  <button onclick="up()">上传</button>
-  <pre id="log"></pre>
+            <div style="max-width:480px;margin:2rem auto;font-size:14px">
+  <h3>📤 匿名文件中转站</h3>
+  <p>单文件 ≤200 MB，永久直链。</p>
+  <input id="file" type="file">
+  <button onclick="submit()">上传</button>
+  <p id="msg"></p>
 
   <script>
-  async function up(){
-    const file = f.files[0];
-    if(!file) return log.textContent='先选文件';
-    log.textContent='上传中 …';
+  async function submit(){
+    const f = file.files[0];
+    if(!f) return msg.textContent='请先选择文件';
+    msg.textContent='上传中 …';
+    const fd = new FormData();
+    fd.append('reqtype','fileupload');
+    fd.append('fileToUpload',f);
     try{
-      const r=await fetch(`https://transfer.sh/${encodeURIComponent(file.name)}`,{
-        method:'PUT',
-        body:file,
-        headers:{'Content-Type':'application/octet-stream'}
-      });
-      if(!r.ok) throw new Error(r.statusText);
+      const r=await fetch('https://catbox.moe/user/api.php',{method:'POST',body:fd});
       const url=await r.text();
-      log.textContent='✅ 直链（复制即可）：\n'+url;
-    }catch(e){
-      log.textContent='❌ '+e.message;
-    }
+      if(!r.ok||url.includes('error')) throw new Error(url);
+      msg.innerHTML=`✅ 完成，直链：<br><input style="width:100%" value="${url}" readonly>
+                     <button onclick="navigator.clipboard.writeText('${url}')">复制</button>`;
+    }catch(e){msg.textContent='❌ '+e.message;}
   }
   </script>
 </div>
@@ -229,29 +228,28 @@
          -->
 
       
-        <div style="max-width:480px;margin:2rem auto">
-  <h3>📤 匿名上传</h3>
-  <input id="f" type="file">
-  <button onclick="up()">上传</button>
-  <pre id="log"></pre>
+        <div style="max-width:480px;margin:2rem auto;font-size:14px">
+  <h3>📤 匿名文件中转站</h3>
+  <p>单文件 ≤200 MB，永久直链。</p>
+  <input id="file" type="file">
+  <button onclick="submit()">上传</button>
+  <p id="msg"></p>
 
   <script>
-  async function up(){
-    const file = f.files[0];
-    if(!file) return log.textContent='先选文件';
-    log.textContent='上传中 …';
+  async function submit(){
+    const f = file.files[0];
+    if(!f) return msg.textContent='请先选择文件';
+    msg.textContent='上传中 …';
+    const fd = new FormData();
+    fd.append('reqtype','fileupload');
+    fd.append('fileToUpload',f);
     try{
-      const r=await fetch(`https://transfer.sh/${encodeURIComponent(file.name)}`,{
-        method:'PUT',
-        body:file,
-        headers:{'Content-Type':'application/octet-stream'}
-      });
-      if(!r.ok) throw new Error(r.statusText);
+      const r=await fetch('https://catbox.moe/user/api.php',{method:'POST',body:fd});
       const url=await r.text();
-      log.textContent='✅ 直链（复制即可）：\n'+url;
-    }catch(e){
-      log.textContent='❌ '+e.message;
-    }
+      if(!r.ok||url.includes('error')) throw new Error(url);
+      msg.innerHTML=`✅ 完成，直链：<br><input style="width:100%" value="${url}" readonly>
+                     <button onclick="navigator.clipboard.writeText('${url}')">复制</button>`;
+    }catch(e){msg.textContent='❌ '+e.message;}
   }
   </script>
 </div>
@@ -366,7 +364,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">📤 匿名上传</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">📤 匿名文件中转站</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -460,22 +458,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">C/C++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">头文件</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">编译链接</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">extern</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">查看&下载</a>
               </li>
              
@@ -489,6 +471,22 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">库开发</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">C/C++</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">头文件</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">编译链接</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">extern</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -508,10 +506,6 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">并查集</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
@@ -521,6 +515,10 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">广度优先搜索</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">并查集</a>
               </li>
              
               <li class="article-tag-list-item">
